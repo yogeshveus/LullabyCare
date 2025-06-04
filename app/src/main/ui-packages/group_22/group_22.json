@@ -1,0 +1,389 @@
+{
+  "name": "group_22",
+  "version": 33,
+  "source-key": {
+    "type": "figma",
+    "file": "MLOaciOfhSyjxeYQWElGgn",
+    "node": "2012:4",
+    "version": "2222784058879497667",
+    "component-id": "67799c874b5658dd952aefafce2969f2e97996b9"
+  },
+  "default": "Group 22",
+  "design": {
+    "atoms": [
+      {
+        "type": "group",
+        "id": "top_level",
+        "root": "true"
+      },
+      {
+        "type": "vector",
+        "id": "Rectangle 7"
+      },
+      {
+        "type": "group",
+        "id": "Group 10"
+      },
+      {
+        "type": "vector",
+        "id": "Vector"
+      },
+      {
+        "type": "vector",
+        "id": "Vector1"
+      },
+      {
+        "type": "group",
+        "id": "Group"
+      },
+      {
+        "type": "vector",
+        "id": "Vector2"
+      },
+      {
+        "type": "vector",
+        "id": "Vector3"
+      },
+      {
+        "type": "vector",
+        "id": "Vector4"
+      },
+      {
+        "type": "vector",
+        "id": "Vector5"
+      },
+      {
+        "type": "vector",
+        "id": "Vector6"
+      },
+      {
+        "type": "vector",
+        "id": "Vector7"
+      }
+    ],
+    "modes": {
+      "Group 22": {
+        "rules": [
+          {
+            "id": "top_level",
+            "is-structured": false,
+            "children": [
+              "Rectangle 7",
+              "Group 10"
+            ],
+            "clip-content": false
+          },
+          {
+            "id": "Rectangle 7",
+            "drop-shadow": {
+              "color": {
+                "alpha": 0.24705882352941178,
+                "hue": 0.0,
+                "saturation": 0.0,
+                "value": 0.0
+              },
+              "blur": 4.0,
+              "offset-x": 0.0,
+              "offset-y": -1.0,
+              "spread": 0.0,
+              "blend-mode": "normal"
+            },
+            "alignment": {
+              "horizontal": {
+                "attachment": "start",
+                "offset": -4.0
+              },
+              "vertical": {
+                "attachment": "start",
+                "offset": -5.0
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              }
+            },
+            "vector-content": "rectangle_7.svg"
+          },
+          {
+            "id": "Group 10",
+            "margin": {
+              "left": 38.0,
+              "top": 29.0,
+              "right": 39.0,
+              "bottom": 27.373931884765625
+            },
+            "is-structured": false,
+            "children": [
+              "Vector",
+              "Vector1",
+              "Group",
+              "Vector2"
+            ],
+            "clip-content": false
+          },
+          {
+            "id": "Vector",
+            "margin": {
+              "top": 1.0,
+              "right": 261.0,
+              "bottom": 1.7126407623291016
+            },
+            "tap-handler": "$on Click",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              }
+            },
+            "vector-content": "vector.svg"
+          },
+          {
+            "id": "Vector1",
+            "margin": {
+              "left": 182.0,
+              "top": 2.0,
+              "right": 81.0,
+              "bottom": 2.626068115234375
+            },
+            "alignment": {
+              "horizontal": {
+                "attachment": "start",
+                "offset": -1.0
+              },
+              "vertical": {
+                "attachment": "start",
+                "offset": -1.0
+              }
+            },
+            "tap-handler": "$on Click3",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              }
+            },
+            "vector-content": "vector1.svg"
+          },
+          {
+            "id": "Group",
+            "margin": {
+              "left": 91.0,
+              "top": 2.0,
+              "right": 170.0,
+              "bottom": 0.8260688781738281
+            },
+            "tap-handler": "$on Click2",
+            "is-structured": false,
+            "children": [
+              "Vector3",
+              "Vector4",
+              "Vector5",
+              "Vector6",
+              "Vector7"
+            ],
+            "clip-content": false
+          },
+          {
+            "id": "Vector2",
+            "margin": {
+              "left": 261.0
+            },
+            "tap-handler": "$on Click4",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              }
+            },
+            "vector-content": "vector2.svg"
+          },
+          {
+            "id": "Vector3",
+            "alignment": {
+              "horizontal": {
+                "attachment": "start",
+                "offset": -1.0
+              },
+              "vertical": {
+                "attachment": "start",
+                "offset": -1.0
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              }
+            },
+            "vector-content": "vector3.svg"
+          },
+          {
+            "id": "Vector4",
+            "margin": {
+              "left": 11.0,
+              "right": 2.1005001068115234,
+              "bottom": 12.775999069213867
+            },
+            "alignment": {
+              "horizontal": {
+                "attachment": "start",
+                "offset": -1.0
+              },
+              "vertical": {
+                "attachment": "start",
+                "offset": -1.0
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              }
+            },
+            "vector-content": "vector4.svg"
+          },
+          {
+            "id": "Vector5",
+            "margin": {
+              "left": 6.8499755859375,
+              "top": 7.399993896484375,
+              "right": 6.850025177001953,
+              "bottom": 9.600005149841309
+            },
+            "alignment": {
+              "horizontal": {
+                "attachment": "start",
+                "offset": -0.25
+              },
+              "vertical": {
+                "attachment": "start",
+                "offset": -0.25
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              }
+            },
+            "vector-content": "vector5.svg"
+          },
+          {
+            "id": "Vector6",
+            "margin": {
+              "left": 8.2490234375,
+              "top": 13.875,
+              "right": 8.405476570129395,
+              "bottom": 4.94999885559082
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              }
+            },
+            "vector-content": "vector6.svg"
+          },
+          {
+            "id": "Vector7",
+            "margin": {
+              "left": 8.2490234375,
+              "top": 1.100006103515625,
+              "right": 7.104572296142578,
+              "bottom": 4.949993133544922
+            },
+            "alignment": {
+              "horizontal": {
+                "attachment": "start",
+                "offset": -1.0001220703125
+              },
+              "vertical": {
+                "attachment": "start",
+                "offset": -1.0001220703125
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              }
+            },
+            "vector-content": "vector7.svg"
+          }
+        ]
+      }
+    }
+  },
+  "parameters": {
+    "on Click": {
+      "data-type": "void-callback",
+      "required": false,
+      "description": ""
+    },
+    "on Click3": {
+      "data-type": "void-callback",
+      "required": false,
+      "description": ""
+    },
+    "on Click2": {
+      "data-type": "void-callback",
+      "required": false,
+      "description": ""
+    },
+    "on Click4": {
+      "data-type": "void-callback",
+      "required": false,
+      "description": ""
+    }
+  },
+  "previews": [
+    {
+      "design": "Group 22",
+      "size": {
+        "width": 360.0,
+        "height": 79.0
+      }
+    }
+  ],
+  "adin-component-search-paths": [],
+  "image-search-paths": [],
+  "vector-search-paths": []
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home"
+        android:title="Profile"
+        android:icon="@drawable/vector__1_" />
+    <item
+        android:id="@+id/baby"
+        android:title="Home"
+        android:icon="@drawable/group" />
+    <item
+        android:id="@+id/community"
+        android:title="Community"
+        android:icon="@drawable/vector__2_" />
+    <item
+        android:id="@+id/settings"
+        android:title="Notifications"
+        android:icon="@drawable/settings_svgrepo_com" />
+</menu>
