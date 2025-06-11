@@ -44,33 +44,33 @@ class NutritionTracker(private val baby: BabyProfile) : AppCompatActivity(){
     }
 
     fun getDietRecommendation(): DietRecommendation {
-        val heightInMeters = baby.heightCm / 100
-        val bmi = baby.weightKg / (heightInMeters * heightInMeters)
+        val heightM = baby.heightCm / 100
+        val bmi = baby.weightKg / (heightM * heightM)
 
         val bmiCategory = when {
             bmi < 14 -> "Underweight"
-            bmi in 14.0..18.0 -> "Normal"
-            else -> "Overweight"
+            bmi > 18 -> "Overweight"
+            else -> "Normal"
         }
 
         return when (baby.ageInMonths) {
             in 0..6 -> DietRecommendation(
                 "0–6 months | $bmiCategory",
                 "500–700 kcal/day",
-                "Exclusive breastfeeding or formula feeding is advised.",
+                "Exclusive breastfeeding or formula feeding is advised.\n",
                 listOf("Breastmilk", "Infant formula")
             )
 
             in 7..12 -> {
                 val meals = when (bmiCategory) {
-                    "Underweight" -> listOf("Mashed banana with ghee", "Rice cereal with formula", "Mashed potato", "Full-fat yogurt", "Egg yolk")
-                    "Overweight" -> listOf("Steamed veggies", "Unsweetened fruit puree", "Light dal water", "Oats porridge (thin)")
+                    "Underweight" -> listOf("Mashed banana with ghee", "Rice cereal with formula", "Mashed potato", "Full-fat yogurt", "Egg yolk\n")
+                    "Overweight" -> listOf("Steamed veggies", "Unsweetened fruit puree", "Light dal water", "Oats porridge (thin)\n")
                     else -> listOf("Rice cereal", "Mashed fruits", "Pureed veggies", "Dal soup", "Soft-boiled egg yolk")
                 }
                 DietRecommendation(
                     "7–12 months | $bmiCategory",
                     "700–900 kcal/day",
-                    "Introduce solids alongside milk feeding.",
+                    "Introduce solids alongside milk feeding.\n",
                     meals
                 )
             }
@@ -84,7 +84,7 @@ class NutritionTracker(private val baby: BabyProfile) : AppCompatActivity(){
                 DietRecommendation(
                     "13–24 months | $bmiCategory",
                     "900–1000 kcal/day",
-                    "Balanced meals including protein, iron, and vitamin A.",
+                    "Balanced meals including protein, iron, and vitamin A.\n",
                     meals
                 )
             }
@@ -98,12 +98,14 @@ class NutritionTracker(private val baby: BabyProfile) : AppCompatActivity(){
                 DietRecommendation(
                     "2+ years | $bmiCategory",
                     "1000–1400 kcal/day (varies by activity)",
-                    "Use growth charts and consult a pediatric dietitian if unsure.",
+                    "Use growth charts and consult a pediatric dietitian if unsure.\n",
                     meals
                 )
             }
         }
     }
+
+
 
     fun clearAllEntries() {
         foodLog.clear()

@@ -49,7 +49,8 @@ class MainActivity3 : AppCompatActivity() {
                     startActivity(intent)
                 }
                 "Nutrition Tracker" -> {
-
+                    val intent = Intent(this, NutritionTrackerActivity::class.java)
+                    startActivity(intent)
 
                 }
             }
@@ -69,15 +70,14 @@ class MainActivity3 : AppCompatActivity() {
                     true
                 }
                 R.id.settings -> {
-                    true
-
                     val intent = Intent(this, NutritionTrackerActivity::class.java)
                     startActivity(intent)
-
+                    true
                 }
                 else -> false
             }
         }
+
         recyclerView.adapter = adapter
     }
 }
