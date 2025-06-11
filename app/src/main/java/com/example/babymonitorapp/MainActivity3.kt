@@ -49,8 +49,28 @@ class MainActivity3 : AppCompatActivity() {
                     startActivity(intent)
                 }
                 "Nutrition Tracker" -> {
-                    // TODO
+
                 }
+            }
+        }
+
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.home -> {
+                    true
+                }
+                R.id.baby -> {
+                    true
+                }
+                R.id.community -> {
+                    val intent = Intent(this, Community::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.settings -> {
+                    true
+                }
+                else -> false
             }
         }
         recyclerView.adapter = adapter

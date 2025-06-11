@@ -39,7 +39,9 @@ android {
 }
 
 dependencies {
-
+    implementation ("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation ("com.google.android.gms:play-services-maps:18.2.0")
+    implementation ("com.google.android.libraries.places:places:3.5.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
