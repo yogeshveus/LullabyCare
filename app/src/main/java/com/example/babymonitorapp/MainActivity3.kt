@@ -50,6 +50,7 @@ class MainActivity3 : AppCompatActivity() {
                 }
                 "Nutrition Tracker" -> {
 
+
                 }
             }
         }
@@ -69,6 +70,10 @@ class MainActivity3 : AppCompatActivity() {
                 }
                 R.id.settings -> {
                     true
+
+                    val intent = Intent(this, NutritionTrackerActivity::class.java)
+                    startActivity(intent)
+
                 }
                 else -> false
             }

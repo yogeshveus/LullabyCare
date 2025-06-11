@@ -25,6 +25,9 @@
             android:name=".CalendarView"
             android:exported="false" />
         <activity
+            android:name=".NutritionTrackerActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity3"
             android:exported="true">
             <intent-filter>
@@ -33,9 +36,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAXZ5z08tdea_B1raXHM5y_WWbumslV45Q" />
+
+
+
     </application>
 
 </manifest>
