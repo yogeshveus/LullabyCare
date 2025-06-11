@@ -8,22 +8,22 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.content.Intent
 
-class LoginView : AppCompatActivity() {
+class RegisterView : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_login_view)
+        setContentView(R.layout.activity_register_view)
 
-        val loginButton = findViewById<Button>(R.id.btnLogin)
-        val registerButton = findViewById<Button>(R.id.register)
+        val registerButton = findViewById<Button>(R.id.btnLogin)
+        val loginButton = findViewById<Button>(R.id.register)
 
-        loginButton.setOnClickListener {
+        registerButton.setOnClickListener {
             val intent = Intent(this, MainActivity3::class.java)
             startActivity(intent)
             finish()
         }
-        registerButton.setOnClickListener {
-            val intent = Intent(this, RegisterView::class.java)
+        loginButton.setOnClickListener {
+            val intent = Intent(this, LoginView::class.java)
             startActivity(intent)
             finish()
         }
