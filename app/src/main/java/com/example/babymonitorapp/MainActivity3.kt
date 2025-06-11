@@ -49,7 +49,8 @@ class MainActivity3 : AppCompatActivity() {
                     startActivity(intent)
                 }
                 "Nutrition Tracker" -> {
-                    // TODO
+                    val intent = Intent(this, NutritionTrackerActivity::class.java)
+                    startActivity(intent)
                 }
             }
         }

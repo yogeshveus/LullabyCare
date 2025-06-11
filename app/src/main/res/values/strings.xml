@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">BabyMonitorApp</string>
+    <string name="nutrition_result">
+        Age Group: %1$s\nCalories: %2$s\nNotes: %3$s\nSuggested Meals:\n%4$s
+    </string>
+    <string name="height_hint">Height (cm)</string>
+    <string name="weight_hint">Weight (kg)</string>
+    <string name="age_hint">Age (months)</string>
+    <string name="get_nutrition_plan">Get Nutrition Plan</string>
+
 </resources>

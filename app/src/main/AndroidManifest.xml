@@ -19,6 +19,9 @@
             android:name=".CalendarView"
             android:exported="false" />
         <activity
+            android:name=".NutritionTrackerActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity3"
             android:exported="true">
             <intent-filter>
@@ -27,12 +30,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity2"
-            android:exported="false" /> <!-- Remove launcher intent-filter from MainActivity -->
-        <activity
-            android:name=".MainActivity"
-            android:exported="true" />
+
     </application>
 
 </manifest>
