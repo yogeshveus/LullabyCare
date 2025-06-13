@@ -1,21 +1,25 @@
 package com.example.babymonitorapp
 
+import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import android.graphics.Color
 
-class ReminderAdapter(private var reminders:List<Reminder>): RecyclerView.Adapter<ReminderAdapter.ViewHolder>(){
+class ReminderAdapter(private var reminders: List<Reminder>) : RecyclerView.Adapter<ReminderAdapter.ViewHolder>() {
+
+    private var onItemLongClick: ((Reminder) -> Unit)? = null
+
+    fun setOnItemLongClickListener(listener: (Reminder) -> Unit) {
+        onItemLongClick = listener
+    }
+
     fun updateReminders(newReminders: List<Reminder>) {
         reminders = newReminders
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val tv = TextView(parent.context).apply {
             textSize = 18f
             setTextColor(Color.parseColor("#2F3D7E"))
@@ -28,13 +32,17 @@ class ReminderAdapter(private var reminders:List<Reminder>): RecyclerView.Adapte
         return ViewHolder(tv)
     }
 
-    override fun onBindViewHolder(holder: ReminderAdapter.ViewHolder, position: Int) {
-        (holder.itemView as TextView).text = reminders[position].text
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val reminder = reminders[position]
+        (holder.itemView as TextView).text = reminder.text
+
+        holder.itemView.setOnLongClickListener {
+            onItemLongClick?.invoke(reminder)
+            true
+        }
     }
 
-    override fun getItemCount(): Int {
-        return reminders.size
-    }
+    override fun getItemCount(): Int = reminders.size
+
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
-
 }
