@@ -62,6 +62,8 @@ class MainActivity3 : AppCompatActivity() {
                     true
                 }
                 R.id.baby -> {
+                    val intent = Intent(this, MediaPlayerActivity::class.java)
+                    startActivity(intent)
                     true
                 }
                 R.id.community -> {
