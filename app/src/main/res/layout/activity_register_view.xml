@@ -12,7 +12,7 @@
         android:id="@+id/tvSignIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="221dp"
+        android:layout_marginTop="130dp"
         android:padding="10dp"
         android:text="Register"
         android:textAlignment="center"
@@ -36,6 +36,40 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvSignIn" />
 
+    <View
+        android:id="@+id/breakLine7"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:background="#B0B4D8"
+        android:alpha="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSubtitle"/>
+
+    <EditText
+        android:id="@+id/etname"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:alpha="0.4"
+        android:background="@drawable/search_bar_background"
+        android:hint="Name"
+        android:padding="12dp"
+        android:textColor="@android:color/white"
+        android:textColorHint="#B0B4D8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/breakLine7" />
+
+    <View
+        android:id="@+id/breakLine6"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:background="#B0B4D8"
+        android:alpha="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etname"/>
+
     <EditText
         android:id="@+id/etUsername"
         android:layout_width="0dp"
@@ -48,7 +82,7 @@
         android:textColorHint="#B0B4D8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvSubtitle" />
+        app:layout_constraintTop_toBottomOf="@id/breakLine6" />
 
     <View
         android:id="@+id/breakLine"
@@ -86,6 +120,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etPassword"/>
 
+    <EditText
+        android:id="@+id/etnumber"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:alpha="0.4"
+        android:background="@drawable/search_bar_background"
+        android:hint="Phone Number"
+        android:inputType="textPassword"
+        android:padding="12dp"
+        android:textColor="@android:color/white"
+        android:textColorHint="#B0B4D8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/breakLine2" />
+
+    <View
+        android:id="@+id/breakLine8"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:background="#B0B4D8"
+        android:alpha="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etnumber"/>
+
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="0dp"
@@ -95,7 +154,7 @@
         android:textAllCaps="true"
         android:textColor="#2D3A74"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/breakLine2"
+        app:layout_constraintTop_toBottomOf="@id/breakLine8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
