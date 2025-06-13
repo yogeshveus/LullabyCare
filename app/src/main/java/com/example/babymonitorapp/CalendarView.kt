@@ -16,16 +16,15 @@ import java.util.Calendar
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 
-
 class CalendarView : AppCompatActivity() {
 
     private lateinit var calendarView: CalendarView
     private lateinit var recyclerView: RecyclerView
     private lateinit var addButton: FloatingActionButton
     private lateinit var toolbar: Toolbar
+    private lateinit var dbHelper: ReminderDatabaseHelper
 
     private lateinit var adapter: ReminderAdapter
-    private val allReminders = mutableListOf<Reminder>()
     private var selectedDate: Long = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,10 +35,10 @@ class CalendarView : AppCompatActivity() {
         recyclerView = findViewById(R.id.reminderRecyclerView)
         addButton = findViewById(R.id.addReminderButton)
         toolbar = findViewById(R.id.toolbar)
+        dbHelper = ReminderDatabaseHelper(this)
 
-        toolbar.setNavigationOnClickListener { item ->
-            val intent = Intent(this, MainActivity3::class.java)
-            startActivity(intent)
+        toolbar.setNavigationOnClickListener {
+            startActivity(Intent(this, MainActivity3::class.java))
         }
 
         adapter = ReminderAdapter(emptyList())
@@ -52,7 +51,6 @@ class CalendarView : AppCompatActivity() {
             recyclerView.addItemDecoration(dividerItemDecoration)
         }
 
-
         selectedDate = getDateWithoutTime(calendarView.date)
         loadRemindersForDate(selectedDate)
 
@@ -62,10 +60,14 @@ class CalendarView : AppCompatActivity() {
         }
 
         addButton.setOnClickListener { showAddReminderDialog() }
+
+        adapter.setOnItemLongClickListener { reminder ->
+            showReminderOptions(reminder)
+        }
     }
 
     private fun loadRemindersForDate(date: Long) {
-        val remindersForDate = allReminders.filter { it.date == date }
+        val remindersForDate = dbHelper.getRemindersByDate(date)
         adapter.updateReminders(remindersForDate)
     }
 
@@ -80,11 +82,52 @@ class CalendarView : AppCompatActivity() {
             .setPositiveButton("Add") { _, _ ->
                 val text = input.text.toString().trim()
                 if (text.isNotEmpty()) {
-                    allReminders.add(Reminder(text, selectedDate))
+                    val reminder = Reminder(text, selectedDate)
+                    dbHelper.insertReminder(reminder)
                     loadRemindersForDate(selectedDate)
                 }
             }
-            .setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun showReminderOptions(reminder: Reminder) {
+        val options = arrayOf("Edit", "Delete")
+
+        AlertDialog.Builder(this)
+            .setTitle("Manage Reminder")
+            .setItems(options) { _, which ->
+                when (which) {
+                    0 -> showEditDialog(reminder)
+                    1 -> {
+                        if (dbHelper.deleteReminder(reminder)) {
+                            Toast.makeText(this, "Deleted", Toast.LENGTH_SHORT).show()
+                            loadRemindersForDate(selectedDate)
+                        }
+                    }
+                }
+            }
+            .show()
+    }
+
+    private fun showEditDialog(reminder: Reminder) {
+        val input = EditText(this).apply {
+            setText(reminder.text)
+        }
+
+        AlertDialog.Builder(this)
+            .setTitle("Edit Reminder")
+            .setView(input)
+            .setPositiveButton("Update") { _, _ ->
+                val newText = input.text.toString().trim()
+                if (newText.isNotEmpty()) {
+                    if (dbHelper.updateReminder(reminder, newText)) {
+                        Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show()
+                        loadRemindersForDate(selectedDate)
+                    }
+                }
+            }
+            .setNegativeButton("Cancel", null)
             .show()
     }
 
@@ -97,4 +140,5 @@ class CalendarView : AppCompatActivity() {
         cal.timeInMillis = timestamp
         return ymdToLong(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH))
     }
+
 }
