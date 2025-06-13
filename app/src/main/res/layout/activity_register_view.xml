@@ -72,7 +72,7 @@
 
     <EditText
         android:id="@+id/etUsername"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:alpha="0.4"
         android:background="@drawable/search_bar_background"
