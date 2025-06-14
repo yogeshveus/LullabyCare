@@ -40,7 +40,10 @@ android {
 }
 
 dependencies {
-
+    implementation(libs.lifecycle.viewmodel.ktx.v270)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.extensions)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
