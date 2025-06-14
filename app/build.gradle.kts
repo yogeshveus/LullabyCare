@@ -40,6 +40,16 @@ android {
 }
 
 dependencies {
+    val roomVersion = "2.6.1"
+
+    // Room core dependencies
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+
+    // KSP Room annotation processor
+    ksp(libs.androidx.room.compiler)
+
+    // your existing dependencies...
     implementation(libs.lifecycle.viewmodel.ktx.v270)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.extensions)
@@ -55,5 +65,4 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
 }
