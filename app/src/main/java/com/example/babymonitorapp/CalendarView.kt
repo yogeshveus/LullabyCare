@@ -1,69 +1,41 @@
 package com.example.babymonitorapp
 
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.Manifest
-import android.content.pm.PackageManager
-import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.os.Build
-import android.app.TimePickerDialog
+import android.app.*
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.text.InputType
-import android.widget.CalendarView
-import android.widget.EditText
-import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import java.util.Calendar
-import kotlin.random.Random
+import androidx.appcompat.widget.Toolbar
+import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.example.babymonitorapp.R
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import java.util.*
+import android.widget.CalendarView
 
 class CalendarView : AppCompatActivity() {
 
     private lateinit var calendarView: CalendarView
     private lateinit var recyclerView: RecyclerView
-    private lateinit var addButton: FloatingActionButton
+    private lateinit var addButton: com.google.android.material.floatingactionbutton.FloatingActionButton
     private lateinit var toolbar: Toolbar
     private lateinit var dbHelper: ReminderDatabaseHelper
-
     private lateinit var adapter: ReminderAdapter
     private var selectedDate: Long = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calendar_view)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1001)
-            }
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                "reminder_channel", // channel ID
-                "Reminders", // name
-                NotificationManager.IMPORTANCE_HIGH
-            ).apply {
-                description = "Channel for reminder notifications"
-            }
-            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-        }
 
-
-
+        requestNotificationPermission()
+        createNotificationChannel()
 
         calendarView = findViewById(R.id.calendarView)
         recyclerView = findViewById(R.id.reminderRecyclerView)
@@ -73,17 +45,13 @@ class CalendarView : AppCompatActivity() {
 
         toolbar.setNavigationOnClickListener {
             startActivity(Intent(this, MainActivity3::class.java))
+            finish()
         }
 
         adapter = ReminderAdapter(emptyList())
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
-
-        val dividerItemDecoration = DividerItemDecoration(this, LinearLayoutManager.VERTICAL)
-        ContextCompat.getDrawable(this, R.drawable.divider)?.let {
-            dividerItemDecoration.setDrawable(it)
-            recyclerView.addItemDecoration(dividerItemDecoration)
-        }
+        addRecyclerViewDivider()
 
         selectedDate = getDateWithoutTime(calendarView.date)
         loadRemindersForDate(selectedDate)
@@ -94,9 +62,34 @@ class CalendarView : AppCompatActivity() {
         }
 
         addButton.setOnClickListener { showAddReminderDialog() }
+        adapter.setOnItemLongClickListener { reminder -> showReminderOptions(reminder) }
+    }
 
-        adapter.setOnItemLongClickListener { reminder ->
-            showReminderOptions(reminder)
+    private fun requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1001)
+        }
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                "reminder_channel", "Reminders", NotificationManager.IMPORTANCE_HIGH
+            ).apply { description = "Channel for reminder notifications" }
+
+            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    private fun addRecyclerViewDivider() {
+        val divider = DividerItemDecoration(this, LinearLayoutManager.VERTICAL)
+        ContextCompat.getDrawable(this, R.drawable.divider)?.let {
+            divider.setDrawable(it)
+            recyclerView.addItemDecoration(divider)
         }
     }
 
@@ -115,6 +108,13 @@ class CalendarView : AppCompatActivity() {
         TimePickerDialog(this, { _, hourOfDay, minute ->
             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
             calendar.set(Calendar.MINUTE, minute)
+            calendar.set(Calendar.SECOND, 0)
+            calendar.set(Calendar.MILLISECOND, 0)
+
+            if (calendar.timeInMillis <= System.currentTimeMillis()) {
+                Toast.makeText(this, "Please choose a future time", Toast.LENGTH_SHORT).show()
+                return@TimePickerDialog
+            }
 
             AlertDialog.Builder(this)
                 .setTitle("Add Reminder")
@@ -130,9 +130,9 @@ class CalendarView : AppCompatActivity() {
                 }
                 .setNegativeButton("Cancel", null)
                 .show()
-        }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
-    }
 
+        }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false).show()
+    }
 
     private fun showReminderOptions(reminder: Reminder) {
         val options = arrayOf("Edit", "Delete")
@@ -143,6 +143,7 @@ class CalendarView : AppCompatActivity() {
                 when (which) {
                     0 -> showEditDialog(reminder)
                     1 -> {
+                        cancelReminderNotification(reminder)
                         if (dbHelper.deleteReminder(reminder)) {
                             Toast.makeText(this, "Deleted", Toast.LENGTH_SHORT).show()
                             loadRemindersForDate(selectedDate)
@@ -154,9 +155,7 @@ class CalendarView : AppCompatActivity() {
     }
 
     private fun showEditDialog(reminder: Reminder) {
-        val input = EditText(this).apply {
-            setText(reminder.text)
-        }
+        val input = EditText(this).apply { setText(reminder.text) }
 
         AlertDialog.Builder(this)
             .setTitle("Edit Reminder")
@@ -188,20 +187,21 @@ class CalendarView : AppCompatActivity() {
         val intent = Intent(this, ReminderReceiver::class.java).apply {
             putExtra("text", reminder.text)
         }
-
         val pendingIntent = PendingIntent.getBroadcast(
-            this,
-            reminder.hashCode(),
-            intent,
+            this, reminder.hashCode(), intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-
         val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-        alarmManager.setExactAndAllowWhileIdle(
-            AlarmManager.RTC_WAKEUP,
-            reminder.time,
-            pendingIntent
-        )
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, reminder.time, pendingIntent)
     }
 
+    private fun cancelReminderNotification(reminder: Reminder) {
+        val intent = Intent(this, ReminderReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(
+            this, reminder.hashCode(), intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+        alarmManager.cancel(pendingIntent)
+    }
 }
