@@ -46,6 +46,9 @@
         <activity
             android:name=".SearchActivity"
             android:exported="true"/>
+        <receiver
+            android:name=".ReminderReceiver"
+            android:exported="true"/>
 
 
         <meta-data
