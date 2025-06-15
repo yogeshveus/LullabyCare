@@ -127,7 +127,7 @@
         android:alpha="0.4"
         android:background="@drawable/search_bar_background"
         android:hint="Phone Number"
-        android:inputType="textPassword"
+        android:inputType="phone"
         android:padding="12dp"
         android:textColor="@android:color/white"
         android:textColorHint="#B0B4D8"

@@ -1,6 +1,5 @@
 package com.example.babymonitorapp
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,10 +9,13 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 
 class CardAdapter(
-    private val items: List<CardItem>,
+    private val originalItems: List<CardItem>,
     private val onClick: (CardItem) -> Unit
 ) : RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
+
+    private var filteredItems: List<CardItem> = originalItems
     private var numTasks: Int = 0
+
     class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titleText: TextView = itemView.findViewById(R.id.textViewTitle)
         val cardView: CardView = itemView.findViewById(R.id.cardView)
@@ -28,28 +30,39 @@ class CardAdapter(
     }
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-        val item = items[position]
+        val item = filteredItems[position]
 
         holder.titleText.text = item.title
         holder.cardView.setOnClickListener {
             onClick(item)
         }
 
-        if (position == 0) {
-
+        if (item.title == "Daily tasks") {
             holder.progressBar.visibility = View.VISIBLE
             holder.progressPercent.visibility = View.VISIBLE
             holder.progressBar.progress = numTasks
             holder.progressPercent.text = "${holder.progressBar.progress / 10}/10"
         } else {
             holder.progressBar.visibility = View.GONE
+            holder.progressPercent.visibility = View.GONE
         }
     }
 
-    override fun getItemCount() = items.size
+    override fun getItemCount() = filteredItems.size
 
-    fun updateTasks(num: Int){
+    fun updateTasks(num: Int) {
         numTasks = num
         notifyItemChanged(0)
+    }
+
+    fun filter(query: String) {
+        filteredItems = if (query.isEmpty()) {
+            originalItems
+        } else {
+            originalItems.filter {
+                it.title.contains(query, ignoreCase = true)
+            }
+        }
+        notifyDataSetChanged()
     }
 }

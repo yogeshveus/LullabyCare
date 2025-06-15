@@ -11,6 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.activity.result.contract.ActivityResultContracts
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
+import android.widget.ImageButton
 
 class MainActivity3 : AppCompatActivity() {
 
@@ -39,6 +42,43 @@ class MainActivity3 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main3)
+        val searchButton: ImageButton = findViewById(R.id.imageButton7)
+        val searchEditText: EditText = findViewById(R.id.editTextText)
+        searchEditText.addTextChangedListener(object : android.text.TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                adapter.filter(s.toString())
+            }
+
+            override fun afterTextChanged(s: android.text.Editable?) {}
+        })
+
+        searchButton.setOnClickListener {
+            val input = EditText(this)
+            input.hint = "Enter search term"
+
+            AlertDialog.Builder(this)
+                .setTitle("Search")
+                .setView(input)
+                .setPositiveButton("Search") { dialog, _ ->
+                    val query = input.text.toString().trim()
+                    if (query.isNotEmpty()) {
+                        adapter.filter(query)
+                    } else {
+                        adapter.filter("") // empty shows everything
+                    }
+                    dialog.dismiss()
+                }
+                .setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
+                .setNeutralButton("Reset") { dialog, _ ->
+                    adapter.filter("") // show all items again
+                    dialog.dismiss()
+                }
+                .show()
+        }
+
+
 
         dbHelper = ReminderDatabaseHelper(this)
 

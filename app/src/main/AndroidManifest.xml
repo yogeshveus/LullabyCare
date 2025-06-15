@@ -49,9 +49,15 @@
         <activity
             android:name=".MainActivity3"
             android:exported="true" />
+
         <receiver
             android:name=".ReminderReceiver"
             android:exported="true"/>
+
+        <activity
+            android:name=".SearchActivity"
+            android:exported="true"/>
+
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
