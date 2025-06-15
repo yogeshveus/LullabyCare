@@ -18,7 +18,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Content inside top section -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -32,16 +31,18 @@
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
 
+                <!-- Left Icon -->
                 <ImageButton
                     android:id="@+id/imageButton6"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/circle_background"
-                    android:contentDescription="1"
+                    android:contentDescription="Left Icon"
                     android:padding="8dp"
                     app:srcCompat="@drawable/vector__3_" />
 
+                <!-- Greeting Text -->
                 <TextView
                     android:id="@+id/textView"
                     android:layout_width="0dp"
@@ -53,26 +54,50 @@
                     android:textColor="#FBFBFB"
                     android:textSize="30sp" />
 
+                <!-- Right Icon -->
                 <ImageButton
                     android:id="@+id/imageButton7"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/circle_background"
-                    android:contentDescription="2"
+                    android:contentDescription="Right Icon"
                     android:padding="8dp"
                     app:srcCompat="@drawable/vector__4_" />
 
-                <ImageButton
-                    android:id="@+id/imageButton8"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/circle_background"
-                    android:contentDescription="3"
-                    android:padding="8dp"
-                    app:srcCompat="@drawable/vector__5_" />
+                <!-- Notification Button with Badge -->
+                <FrameLayout
+                    android:id="@+id/notification_frame"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageButton
+                        android:id="@+id/notificationButton"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/circle_background"
+                        android:padding="8dp"
+                        android:contentDescription="Notifications"
+                        app:srcCompat="@drawable/vector__5_" />
+
+                    <!-- Notification Badge -->
+                    <TextView
+                        android:id="@+id/notification_badge"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="top|end"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginEnd="6dp"
+                        android:background="@drawable/badge_background"
+                        android:textColor="@android:color/white"
+                        android:gravity="center"
+                        android:textSize="11sp"
+                        android:text="3" />
+
+                </FrameLayout>
             </LinearLayout>
 
+            <!-- Search Bar -->
             <EditText
                 android:id="@+id/editTextText"
                 android:layout_width="match_parent"
@@ -88,6 +113,7 @@
         </LinearLayout>
     </FrameLayout>
 
+    <!-- RecyclerView for Cards -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
@@ -98,19 +124,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-
+    <!-- Bottom Navigation Bar -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="0dp"
         android:layout_height="65dp"
         android:background="#FFF7F8"
-        app:elevation="80dp"
+        app:elevation="8dp"
         app:itemIconSize="28dp"
         app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:menu="@menu/bottom_nav_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
