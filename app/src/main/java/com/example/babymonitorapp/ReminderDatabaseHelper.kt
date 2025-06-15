@@ -10,17 +10,16 @@ class ReminderDatabaseHelper(context: Context) :
 
     companion object {
         private const val DATABASE_NAME = "reminders.db"
-        private const val DATABASE_VERSION = 2
+        private const val DATABASE_VERSION = 3
         private const val TABLE_NAME = "reminders"
         private const val COLUMN_ID = "id"
         private const val COLUMN_TEXT = "text"
         private const val COLUMN_DATE = "date"
         private const val COLUMN_TIME = "time"
-
     }
 
     override fun onCreate(db: SQLiteDatabase) {
-        val createTable = """
+        val createRemindersTable = """
             CREATE TABLE $TABLE_NAME (
                 $COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT,
                 $COLUMN_TEXT TEXT,
@@ -28,11 +27,21 @@ class ReminderDatabaseHelper(context: Context) :
                 $COLUMN_TIME INTEGER
             )
         """.trimIndent()
-        db.execSQL(createTable)
+        db.execSQL(createRemindersTable)
+
+        val createNotificationsTable = """
+            CREATE TABLE notifications (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                message TEXT,
+                timestamp INTEGER
+            )
+        """.trimIndent()
+        db.execSQL(createNotificationsTable)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
+        db.execSQL("DROP TABLE IF EXISTS notifications")
         onCreate(db)
     }
 
@@ -70,6 +79,27 @@ class ReminderDatabaseHelper(context: Context) :
         return reminders
     }
 
+    fun getAllReminders(): List<Reminder> {
+        val reminders = mutableListOf<Reminder>()
+        val db = readableDatabase
+        val cursor = db.query(
+            TABLE_NAME,
+            arrayOf(COLUMN_TEXT, COLUMN_DATE, COLUMN_TIME),
+            null, null, null, null, "$COLUMN_DATE DESC, $COLUMN_TIME DESC"
+        )
+        with(cursor) {
+            while (moveToNext()) {
+                val text = getString(getColumnIndexOrThrow(COLUMN_TEXT))
+                val date = getLong(getColumnIndexOrThrow(COLUMN_DATE))
+                val time = getLong(getColumnIndexOrThrow(COLUMN_TIME))
+                reminders.add(Reminder(text, date, time))
+            }
+            close()
+        }
+        db.close()
+        return reminders
+    }
+
     fun deleteReminder(reminder: Reminder): Boolean {
         val db = writableDatabase
         val result = db.delete(
@@ -80,7 +110,6 @@ class ReminderDatabaseHelper(context: Context) :
         db.close()
         return result > 0
     }
-
 
     fun updateReminder(oldReminder: Reminder, newText: String): Boolean {
         val db = writableDatabase
@@ -97,7 +126,25 @@ class ReminderDatabaseHelper(context: Context) :
         return result > 0
     }
 
+    fun insertNotificationMessage(message: String) {
+        val db = writableDatabase
+        val values = ContentValues().apply {
+            put("message", message)
+            put("timestamp", System.currentTimeMillis())
+        }
+        db.insert("notifications", null, values)
+        db.close()
+    }
 
-
-
+    fun getAllNotifications(): List<String> {
+        val notifications = mutableListOf<String>()
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT message FROM notifications ORDER BY timestamp DESC", null)
+        while (cursor.moveToNext()) {
+            notifications.add(cursor.getString(0))
+        }
+        cursor.close()
+        db.close()
+        return notifications
+    }
 }

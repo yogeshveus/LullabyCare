@@ -1,12 +1,15 @@
 package com.example.babymonitorapp
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
+import android.view.View
+import android.widget.ImageButton
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import android.content.Intent
 import androidx.activity.result.contract.ActivityResultContracts
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
@@ -17,6 +20,9 @@ class MainActivity3 : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var adapter: CardAdapter
+    private lateinit var dbHelper: ReminderDatabaseHelper
+    private lateinit var notificationButton: ImageButton
+    private lateinit var badgeTextView: TextView
 
     private val cardItems = listOf(
         CardItem("Daily tasks"),
@@ -74,59 +80,76 @@ class MainActivity3 : AppCompatActivity() {
 
 
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) !=
-                android.content.pm.PackageManager.PERMISSION_GRANTED) {
-
-                requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 1001)
-            }
-        }
-
+        dbHelper = ReminderDatabaseHelper(this)
 
         recyclerView = findViewById(R.id.recyclerView)
         bottomNav = findViewById(R.id.bottomNavigationView)
-
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = CardAdapter(cardItems) { item ->
             when (item.title) {
-                "Daily tasks" -> {
-                    val intent = Intent(this, DailyTasksView::class.java)
-                    dailyTasksLauncher.launch(intent)
-                }
-                "Calendar" -> {
-                    val intent = Intent(this, CalendarView::class.java)
-                    startActivity(intent)
-                }
-                "Nutrition Tracker" -> {
-                    val intent = Intent(this, NutritionTrackerActivity::class.java)
-                    startActivity(intent)
-
-                }
+                "Daily tasks" -> dailyTasksLauncher.launch(Intent(this, DailyTasksView::class.java))
+                "Calendar" -> startActivity(Intent(this, CalendarView::class.java))
+                "Nutrition Tracker" -> startActivity(Intent(this, NutritionTrackerActivity::class.java))
             }
         }
+        recyclerView.adapter = adapter
+
+        notificationButton = findViewById(R.id.notificationButton)
+        badgeTextView = findViewById(R.id.notification_badge)
+
+        notificationButton.setOnClickListener {
+            showAllNotifications()
+        }
+
+        updateNotificationBadge()
 
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.home -> {
-                    true
-                }
-                R.id.baby -> {
-                    true
-                }
+                R.id.home -> true
+                R.id.baby -> true
                 R.id.community -> {
-                    val intent = Intent(this, Community::class.java)
-                    startActivity(intent)
+                    startActivity(Intent(this, Community::class.java))
                     true
                 }
                 R.id.settings -> {
-                    val intent = Intent(this, NutritionTrackerActivity::class.java)
-                    startActivity(intent)
+                    startActivity(Intent(this, NutritionTrackerActivity::class.java))
                     true
                 }
                 else -> false
             }
         }
+    }
 
-        recyclerView.adapter = adapter
+    private fun updateNotificationBadge() {
+        val count = dbHelper.getAllReminders().size
+        if (count > 0) {
+            badgeTextView.text = count.toString()
+            badgeTextView.visibility = View.VISIBLE
+        } else {
+            badgeTextView.visibility = View.GONE
+        }
+    }
+
+    private fun showAllNotifications() {
+        val allReminders = dbHelper.getAllReminders()
+        if (allReminders.isEmpty()) {
+            AlertDialog.Builder(this)
+                .setTitle("Notifications")
+                .setMessage("No notifications yet.")
+                .setPositiveButton("OK", null)
+                .show()
+        } else {
+            val reminderTexts = allReminders.joinToString("\n\n") {
+                val date = it.date
+                val text = it.text
+                "📅 $date\n🔔 $text"
+            }
+            AlertDialog.Builder(this)
+                .setTitle("Notifications")
+                .setMessage(reminderTexts)
+                .setPositiveButton("OK", null)
+                .show()
+        }
+        updateNotificationBadge()  // Refresh the badge after showing
     }
 }
