@@ -12,8 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.activity.result.contract.ActivityResultContracts
 import android.widget.EditText
-import androidx.appcompat.app.AlertDialog
-import android.widget.ImageButton
 
 class MainActivity3 : AppCompatActivity() {
 
