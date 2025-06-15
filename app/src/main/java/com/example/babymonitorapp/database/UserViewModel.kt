@@ -21,4 +21,13 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
             repository.insertUser(user)
         }
     }
+
+    suspend fun validUser(user: String): User?{
+        return repository.getUserbyUsername(user)
+    }
+    suspend fun login(username: String, password: String): User? {
+        return repository.login(username, password)
+    }
+
+
 }
