@@ -15,6 +15,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class DailyTasksView : AppCompatActivity() {
@@ -22,6 +23,7 @@ class DailyTasksView : AppCompatActivity() {
     private lateinit var binding: ActivityDailyTasksViewBinding
     private lateinit var adapter: TaskAdapter
     private var allTasks = mutableListOf<Tasks>()
+    private var bottomNav: BottomNavigationView? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +53,26 @@ class DailyTasksView : AppCompatActivity() {
 
         }
 
+        bottomNav = findViewById(R.id.bottomNavigationView)
 
+        bottomNav?.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.home -> {
+                    startActivity(Intent(this, MainActivity3::class.java))
+                    true
+                }
+                R.id.baby -> true
+                R.id.community -> {
+                    startActivity(Intent(this, Community::class.java))
+                    true
+                }
+                R.id.settings -> {
+
+                    true
+                }
+                else -> false
+            }
+        }
 
         binding.addtaskButton.setOnClickListener {showAddTaskDialog()}
 

@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.util.*
 import android.widget.CalendarView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class CalendarView : AppCompatActivity() {
 
@@ -28,6 +29,7 @@ class CalendarView : AppCompatActivity() {
     private lateinit var toolbar: Toolbar
     private lateinit var dbHelper: ReminderDatabaseHelper
     private lateinit var adapter: ReminderAdapter
+    private var bottomNav: BottomNavigationView? = null
     private var selectedDate: Long = 0L
     private var currentUserId: Int = -1
 
@@ -62,6 +64,26 @@ class CalendarView : AppCompatActivity() {
         calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             selectedDate = ymdToLong(year, month + 1, dayOfMonth)
             loadRemindersForDate(selectedDate)
+        }
+
+        bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        bottomNav?.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.home -> {
+                    startActivity(Intent(this, MainActivity3::class.java))
+                    true
+                }
+                R.id.baby -> true
+                R.id.community -> {
+                    startActivity(Intent(this, Community::class.java))
+                    true
+                }
+                R.id.settings -> {
+
+                    true
+                }
+                else -> false
+            }
         }
 
         addButton.setOnClickListener { showAddReminderDialog() }

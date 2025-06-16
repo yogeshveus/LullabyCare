@@ -106,14 +106,17 @@ class MainActivity3 : AppCompatActivity() {
 
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.home -> true
+                R.id.home -> {
+
+                    true
+                }
                 R.id.baby -> true
                 R.id.community -> {
                     startActivity(Intent(this, Community::class.java))
                     true
                 }
                 R.id.settings -> {
-                    startActivity(Intent(this, NutritionTrackerActivity::class.java))
+
                     true
                 }
                 else -> false
