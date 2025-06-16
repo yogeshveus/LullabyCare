@@ -13,6 +13,10 @@ roomRuntime = "2.7.1"
 playServicesMaps = "19.2.0"
 roomCommonJvm = "2.7.1"
 roomRuntimeAndroid = "2.7.1"
+pfYoutubePlayer = "12.1.0"
+gson = "2.11.0"
+glide = "4.16.0"
+recyclerview = "1.4.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -30,6 +34,10 @@ play-services-maps = { group = "com.google.android.gms", name = "play-services-m
 androidx-room-common-jvm = { group = "androidx.room", name = "room-common-jvm", version.ref = "roomCommonJvm" }
 androidx-room-runtime-android = { group = "androidx.room", name = "room-runtime-android", version.ref = "roomRuntimeAndroid" }
 
+youtube-player-android = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:core", version.ref = "pfYoutubePlayer" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
