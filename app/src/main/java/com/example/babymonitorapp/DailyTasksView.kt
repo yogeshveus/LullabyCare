@@ -14,14 +14,18 @@ import com.example.babymonitorapp.databinding.ActivityDailyTasksViewBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.example.babymonitorapp.database.Task
+import com.example.babymonitorapp.database.TaskViewModel
 
 
 class DailyTasksView : AppCompatActivity() {
 
     private lateinit var binding: ActivityDailyTasksViewBinding
     private lateinit var adapter: TaskAdapter
-    private var allTasks = mutableListOf<Tasks>()
+    private lateinit var taskViewModel: TaskViewModel
+    private var userId: Int = -1
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,8 +35,17 @@ class DailyTasksView : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
 
-        adapter = TaskAdapter(allTasks)
+        val sharedPref = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
+        userId = sharedPref.getInt("loggedInUserId", -1)
+        if (userId == -1) {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
 
+        adapter = TaskAdapter(mutableListOf()){
+            updatedTask -> taskViewModel.updateTask(updatedTask)
+        }
         binding.taskRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.taskRecyclerView.adapter = adapter
 
@@ -42,18 +55,18 @@ class DailyTasksView : AppCompatActivity() {
             binding.taskRecyclerView.addItemDecoration(dividerItemDecoration)
         }
 
-        binding.toolbar.setNavigationOnClickListener { item ->
-            val checkedCount = allTasks.count { it.isChecked }
-            val resultIntent = Intent()
-            resultIntent.putExtra("completed_tasks", checkedCount)
-            setResult(RESULT_OK, resultIntent)
-            finish()
-
+        taskViewModel = ViewModelProvider(this)[TaskViewModel::class.java]
+        taskViewModel.getTasksForUser(userId).observe(this) { tasks ->
+            adapter.setTasks(tasks)
         }
 
+        binding.toolbar.setNavigationOnClickListener {
+            finish()
+        }
 
-
-        binding.addtaskButton.setOnClickListener {showAddTaskDialog()}
+        binding.addtaskButton.setOnClickListener {
+            showAddTaskDialog()
+        }
 
     }
     private fun showAddTaskDialog(){
@@ -67,7 +80,8 @@ class DailyTasksView : AppCompatActivity() {
                 val taskName = input.text.toString().trim()
                 if (taskName.isNotEmpty())
                 {
-                    adapter.addTask(Tasks(taskName))
+                    val newTask = Task(userId = userId, title = taskName, isCompleted = false)
+                    taskViewModel.insertTask(newTask)
                 } else {
                     Toast.makeText(this, "Task name can't be empty", Toast.LENGTH_SHORT).show()
                 }

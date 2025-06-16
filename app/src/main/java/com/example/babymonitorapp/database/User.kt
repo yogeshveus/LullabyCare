@@ -28,5 +28,5 @@ data class Task(
     val id: Int = 0,
     val userId: Int,
     val title: String,
-    val isCompleted: Boolean = false
+    var isCompleted: Boolean = false
 )
