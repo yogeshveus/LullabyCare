@@ -10,7 +10,7 @@ class ReminderDatabaseHelper(context: Context) :
 
     companion object {
         private const val DATABASE_NAME = "reminders.db"
-        private const val DATABASE_VERSION = 3
+        private const val DATABASE_VERSION = 5
         private const val TABLE_NAME = "reminders"
         private const val COLUMN_ID = "id"
         private const val COLUMN_TEXT = "text"
@@ -24,7 +24,8 @@ class ReminderDatabaseHelper(context: Context) :
                 $COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT,
                 $COLUMN_TEXT TEXT,
                 $COLUMN_DATE INTEGER,
-                $COLUMN_TIME INTEGER
+                $COLUMN_TIME INTEGER,
+                userId INTEGER
             )
         """.trimIndent()
         db.execSQL(createRemindersTable)
@@ -51,27 +52,32 @@ class ReminderDatabaseHelper(context: Context) :
             put(COLUMN_TEXT, reminder.text)
             put(COLUMN_DATE, reminder.date)
             put(COLUMN_TIME, reminder.time)
+            put("userId", reminder.userId)
         }
         db.insert(TABLE_NAME, null, values)
         db.close()
     }
 
-    fun getRemindersByDate(date: Long): List<Reminder> {
+    fun getRemindersByDate(date: Long, userId: Int): List<Reminder> {
         val reminders = mutableListOf<Reminder>()
         val db = readableDatabase
         val cursor = db.query(
             TABLE_NAME,
-            arrayOf(COLUMN_TEXT, COLUMN_DATE, COLUMN_TIME),
-            "$COLUMN_DATE = ?",
-            arrayOf(date.toString()),
+            arrayOf(COLUMN_ID, COLUMN_TEXT, COLUMN_DATE, COLUMN_TIME, "userId"),
+            "$COLUMN_DATE = ? AND userId = ?",
+            arrayOf(date.toString(), userId.toString()),
             null, null, null
         )
+
         with(cursor) {
             while (moveToNext()) {
+                val id = getInt(getColumnIndexOrThrow(COLUMN_ID))
                 val text = getString(getColumnIndexOrThrow(COLUMN_TEXT))
                 val reminderDate = getLong(getColumnIndexOrThrow(COLUMN_DATE))
                 val time = getLong(getColumnIndexOrThrow(COLUMN_TIME))
-                reminders.add(Reminder(text, reminderDate, time))
+                val fetchedUserId = getInt(getColumnIndexOrThrow("userId"))
+
+                reminders.add(Reminder(text, reminderDate, time, fetchedUserId, id))
             }
             close()
         }
@@ -79,20 +85,26 @@ class ReminderDatabaseHelper(context: Context) :
         return reminders
     }
 
-    fun getAllReminders(): List<Reminder> {
+
+    fun getAllReminders(userId: Int): List<Reminder> {
         val reminders = mutableListOf<Reminder>()
         val db = readableDatabase
         val cursor = db.query(
             TABLE_NAME,
-            arrayOf(COLUMN_TEXT, COLUMN_DATE, COLUMN_TIME),
-            null, null, null, null, "$COLUMN_DATE DESC, $COLUMN_TIME DESC"
+            arrayOf(COLUMN_ID, COLUMN_TEXT, COLUMN_DATE, COLUMN_TIME, "userId"),
+            "userId = ?",
+            arrayOf(userId.toString()),
+            null, null,
+            "$COLUMN_DATE DESC, $COLUMN_TIME DESC"
         )
         with(cursor) {
             while (moveToNext()) {
+                val id = getInt(getColumnIndexOrThrow(COLUMN_ID))
                 val text = getString(getColumnIndexOrThrow(COLUMN_TEXT))
                 val date = getLong(getColumnIndexOrThrow(COLUMN_DATE))
                 val time = getLong(getColumnIndexOrThrow(COLUMN_TIME))
-                reminders.add(Reminder(text, date, time))
+                val uId = getInt(getColumnIndexOrThrow("userId"))
+                reminders.add(Reminder(text, date, time, uId, id))
             }
             close()
         }
@@ -104,12 +116,18 @@ class ReminderDatabaseHelper(context: Context) :
         val db = writableDatabase
         val result = db.delete(
             TABLE_NAME,
-            "$COLUMN_TEXT = ? AND $COLUMN_DATE = ? AND $COLUMN_TIME = ?",
-            arrayOf(reminder.text, reminder.date.toString(), reminder.time.toString())
+            "$COLUMN_TEXT = ? AND $COLUMN_DATE = ? AND $COLUMN_TIME = ? AND userId = ?",
+            arrayOf(
+                reminder.text,
+                reminder.date.toString(),
+                reminder.time.toString(),
+                reminder.userId.toString()
+            )
         )
         db.close()
         return result > 0
     }
+
 
     fun updateReminder(oldReminder: Reminder, newText: String): Boolean {
         val db = writableDatabase
@@ -119,12 +137,18 @@ class ReminderDatabaseHelper(context: Context) :
         val result = db.update(
             TABLE_NAME,
             values,
-            "$COLUMN_TEXT = ? AND $COLUMN_DATE = ? AND $COLUMN_TIME = ?",
-            arrayOf(oldReminder.text, oldReminder.date.toString(), oldReminder.time.toString())
+            "$COLUMN_TEXT = ? AND $COLUMN_DATE = ? AND $COLUMN_TIME = ? AND userId = ?",
+            arrayOf(
+                oldReminder.text,
+                oldReminder.date.toString(),
+                oldReminder.time.toString(),
+                oldReminder.userId.toString()
+            )
         )
         db.close()
         return result > 0
     }
+
 
     fun insertNotificationMessage(message: String) {
         val db = writableDatabase

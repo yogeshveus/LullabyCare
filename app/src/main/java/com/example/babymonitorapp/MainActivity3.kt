@@ -21,6 +21,7 @@ class MainActivity3 : AppCompatActivity() {
     private lateinit var dbHelper: ReminderDatabaseHelper
     private lateinit var notificationButton: ImageButton
     private lateinit var badgeTextView: TextView
+    private var currentUserId: Int = -1
 
     private val cardItems = listOf(
         CardItem("Daily tasks"),
@@ -38,6 +39,8 @@ class MainActivity3 : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val sharedPref = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
+        currentUserId = sharedPref.getInt("loggedInUserId", -1)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main3)
         val searchButton: ImageButton = findViewById(R.id.imageButton7)
@@ -119,7 +122,7 @@ class MainActivity3 : AppCompatActivity() {
     }
 
     private fun updateNotificationBadge() {
-        val count = dbHelper.getAllReminders().size
+        val count = dbHelper.getAllReminders(currentUserId).size
         if (count > 0) {
             badgeTextView.text = count.toString()
             badgeTextView.visibility = View.VISIBLE
@@ -129,7 +132,7 @@ class MainActivity3 : AppCompatActivity() {
     }
 
     private fun showAllNotifications() {
-        val allReminders = dbHelper.getAllReminders()
+        val allReminders = dbHelper.getAllReminders(currentUserId)
         if (allReminders.isEmpty()) {
             AlertDialog.Builder(this)
                 .setTitle("Notifications")

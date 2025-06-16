@@ -29,8 +29,11 @@ class CalendarView : AppCompatActivity() {
     private lateinit var dbHelper: ReminderDatabaseHelper
     private lateinit var adapter: ReminderAdapter
     private var selectedDate: Long = 0L
+    private var currentUserId: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val sharedPref = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
+        currentUserId = sharedPref.getInt("loggedInUserId", -1)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calendar_view)
 
@@ -94,7 +97,7 @@ class CalendarView : AppCompatActivity() {
     }
 
     private fun loadRemindersForDate(date: Long) {
-        val remindersForDate = dbHelper.getRemindersByDate(date)
+        val remindersForDate = dbHelper.getRemindersByDate(date, currentUserId)
         adapter.updateReminders(remindersForDate)
     }
 
@@ -122,7 +125,7 @@ class CalendarView : AppCompatActivity() {
                 .setPositiveButton("Add") { _, _ ->
                     val text = input.text.toString().trim()
                     if (text.isNotEmpty()) {
-                        val reminder = Reminder(text, selectedDate, calendar.timeInMillis)
+                        val reminder = Reminder(text, selectedDate, calendar.timeInMillis, currentUserId)
                         dbHelper.insertReminder(reminder)
                         scheduleReminderNotification(reminder)
                         loadRemindersForDate(selectedDate)

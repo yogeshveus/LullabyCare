@@ -29,6 +29,11 @@ class LoginView : AppCompatActivity() {
             lifecycleScope.launch {
                 val user = userViewModel.login(username, password)
                 if (user != null) {
+                    val sharedPref = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
+                    sharedPref.edit().putInt("loggedInUserId", user.id).apply()
+
+                    Toast.makeText(this@LoginView, "Successfully Logged in", Toast.LENGTH_SHORT).show()
+
                     val intent = Intent(this@LoginView, MainActivity3::class.java)
                     Toast.makeText(this@LoginView, "Successfully Logged in", Toast.LENGTH_SHORT).show()
                     startActivity(intent)
