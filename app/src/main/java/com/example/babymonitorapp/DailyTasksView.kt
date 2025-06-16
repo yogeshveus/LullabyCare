@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.babymonitorapp.database.Task
 import com.example.babymonitorapp.database.TaskViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class DailyTasksView : AppCompatActivity() {
@@ -25,6 +26,7 @@ class DailyTasksView : AppCompatActivity() {
     private lateinit var binding: ActivityDailyTasksViewBinding
     private lateinit var adapter: TaskAdapter
     private lateinit var taskViewModel: TaskViewModel
+    private var bottomNav: BottomNavigationView? = null
     private var userId: Int = -1
 
 
@@ -63,7 +65,26 @@ class DailyTasksView : AppCompatActivity() {
         binding.toolbar.setNavigationOnClickListener {
             finish()
         }
+        bottomNav = findViewById(R.id.bottomNavigationView)
 
+        bottomNav?.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.home -> {
+                    startActivity(Intent(this, MainActivity3::class.java))
+                    true
+                }
+                R.id.baby -> true
+                R.id.community -> {
+                    startActivity(Intent(this, Community::class.java))
+                    true
+                }
+                R.id.settings -> {
+
+                    true
+                }
+                else -> false
+            }
+        }
         binding.addtaskButton.setOnClickListener {
             showAddTaskDialog()
         }
