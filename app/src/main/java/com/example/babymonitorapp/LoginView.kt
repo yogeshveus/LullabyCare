@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.babymonitorapp.database.UserViewModel
+import androidx.core.content.edit
 
 class LoginView : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,12 +31,9 @@ class LoginView : AppCompatActivity() {
                 val user = userViewModel.login(username, password)
                 if (user != null) {
                     val sharedPref = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
-                    sharedPref.edit().putInt("loggedInUserId", user.id).apply()
-
+                    sharedPref.edit { putInt("loggedInUserId", user.id) }
                     Toast.makeText(this@LoginView, "Successfully Logged in", Toast.LENGTH_SHORT).show()
-
                     val intent = Intent(this@LoginView, MainActivity3::class.java)
-                    Toast.makeText(this@LoginView, "Successfully Logged in", Toast.LENGTH_SHORT).show()
                     startActivity(intent)
                     finish()
                 } else {
