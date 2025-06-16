@@ -1,3 +1,5 @@
+#LullabyCare
+
 Parenting is a rewarding journey, but it also comes with its fair share of challenges — especially when caring for a newborn. LullabyCare is designed to ease the daily responsibilities of parenting by helping you stay organized, informed, and supported.
 
 With LullabyCare, you can:
