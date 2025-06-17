@@ -5,6 +5,12 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+
 
     <application
         android:allowBackup="true"
@@ -49,6 +55,15 @@
         <activity
             android:name=".MainActivity3"
             android:exported="true" />
+
+        <receiver
+            android:name=".ReminderReceiver"
+            android:exported="true"/>
+
+        <activity
+            android:name=".SearchActivity"
+            android:exported="true"/>
+
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

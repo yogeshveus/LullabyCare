@@ -1,33 +1,41 @@
 package com.example.babymonitorapp
 
+import android.content.Intent
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import java.util.UUID
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
-data class FoodEntry(
-    val id: String = UUID.randomUUID().toString(),
-    val name: String,
-    val calories: Int,
-    val protein: Double,
-    val carbs: Double,
-    val fats: Double
-)
 
-data class BabyProfile(
-    val ageInMonths: Int,
-    val weightKg: Double,
-    val heightCm: Double
-)
-
-data class DietRecommendation(
-    val ageGroup: String,
-    val dailyCalories: String,
-    val notes: String,
-    val suggestedMeals: List<String>
-)
-
-class NutritionTracker(private val baby: BabyProfile) : AppCompatActivity(){
+class NutritionTracker(private val baby: BabyProfile) : AppCompatActivity() {
 
     private val foodLog = mutableListOf<FoodEntry>()
+    private var bottomNav: BottomNavigationView? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_nutrition_tracker)
+
+        bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+
+        bottomNav?.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.home -> {
+                    startActivity(Intent(this, MainActivity3::class.java))
+                    true
+                }
+                R.id.baby -> true
+                R.id.community -> {
+                    startActivity(Intent(this, Community::class.java))
+                    true
+                }
+                R.id.settings -> {
+
+                    true
+                }
+                else -> false
+            }
+        }
+    }
 
     fun addFood(name: String, calories: Int, protein: Double, carbs: Double, fats: Double) {
         val entry = FoodEntry(name = name, calories = calories, protein = protein, carbs = carbs, fats = fats)
@@ -104,8 +112,6 @@ class NutritionTracker(private val baby: BabyProfile) : AppCompatActivity(){
             }
         }
     }
-
-
 
     fun clearAllEntries() {
         foodLog.clear()

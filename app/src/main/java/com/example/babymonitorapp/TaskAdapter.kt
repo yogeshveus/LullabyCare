@@ -6,30 +6,32 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import android.graphics.Color
 import android.widget.CheckBox
+import com.example.babymonitorapp.database.Task
 
-class TaskAdapter(private var tasks: MutableList<Tasks>): RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
+class TaskAdapter(private var tasks: MutableList<Task>, private val onTaskCheckedChange: (Task) -> Unit): RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): TaskAdapter.ViewHolder {
+    ): ViewHolder {
         var tv = CheckBox(parent.context).apply{
             textSize = 18f
             setTextColor(Color.parseColor("#2F3D7E"))
             setPadding(32, 24, 32, 24)
         }
-        return TaskAdapter.ViewHolder(tv)
+        return ViewHolder(tv)
     }
 
-    override fun onBindViewHolder(holder: TaskAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var item = tasks[position]
-        holder.checkBox.text = item.label
-        holder.checkBox.isChecked = item.isChecked
+        holder.checkBox.text = item.title
+        holder.checkBox.isChecked = item.isCompleted
 
         holder.checkBox.setOnCheckedChangeListener(null)
-        holder.checkBox.isChecked = item.isChecked
+        holder.checkBox.isChecked = item.isCompleted
 
         holder.checkBox.setOnCheckedChangeListener { _, isChecked ->
-            item.isChecked = isChecked
+            item.isCompleted = isChecked
+            onTaskCheckedChange(item)
         }
     }
 
@@ -39,8 +41,9 @@ class TaskAdapter(private var tasks: MutableList<Tasks>): RecyclerView.Adapter<T
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val checkBox: CheckBox = itemView as CheckBox
     }
-    fun addTask(task: Tasks) {
-        tasks.add(task)
-        notifyItemInserted(tasks.size - 1)
+    fun setTasks(newTasks: List<Task>) {
+        tasks.clear()
+        tasks.addAll(newTasks)
+        notifyDataSetChanged()
     }
 }
