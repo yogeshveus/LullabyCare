@@ -28,6 +28,9 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
     suspend fun login(username: String, password: String): User? {
         return repository.login(username, password)
     }
+    suspend fun getUserbyUserId(userId: Int): User?{
+        return repository.getUserbyUserId(userId)
+    }
 
 
 }

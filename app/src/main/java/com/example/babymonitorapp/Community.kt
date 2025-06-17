@@ -2,6 +2,7 @@ package com.example.babymonitorapp
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.os.Bundle
@@ -16,6 +17,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
 
 class Community : AppCompatActivity(), OnMapReadyCallback {
@@ -25,6 +27,7 @@ class Community : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var locationInput: EditText
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: SavedLocationsAdapter
+    private var bottomNav: BottomNavigationView? = null
     private val savedLocations = mutableListOf<LocationData>()
 
     private val PREFS_NAME = "saved_locations"
@@ -37,6 +40,7 @@ class Community : AppCompatActivity(), OnMapReadyCallback {
         searchButton = findViewById(R.id.buttonSearch)
         locationInput = findViewById(R.id.editTextLocation)
         recyclerView = findViewById(R.id.recyclerViewLocations)
+        bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
         adapter = SavedLocationsAdapter(savedLocations) { locationData ->
             moveToLocation(locationData.latLng, locationData.name)
@@ -56,6 +60,29 @@ class Community : AppCompatActivity(), OnMapReadyCallback {
                 searchLocation(locationName)
             }
         }
+
+        bottomNav?.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.home -> {
+                    startActivity(Intent(this, MainActivity3::class.java))
+                    true
+                }
+                R.id.baby -> {
+                    startActivity(Intent(this, YoutubeActivity::class.java))
+                    true
+                }
+                R.id.community -> {
+                    startActivity(Intent(this, Community::class.java))
+                    true
+                }
+                R.id.settings -> {
+                    startActivity(Intent(this, SettingsView::class.java))
+                    true
+                }
+                else -> false
+            }
+        }
+
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

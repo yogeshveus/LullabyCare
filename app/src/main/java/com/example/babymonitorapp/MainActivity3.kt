@@ -1,5 +1,6 @@
 package com.example.babymonitorapp
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -13,7 +14,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.activity.result.contract.ActivityResultContracts
 import android.widget.EditText
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.babymonitorapp.database.TaskViewModel
+import com.example.babymonitorapp.database.User
+import com.example.babymonitorapp.database.UserViewModel
+import kotlinx.coroutines.launch
 
 class MainActivity3 : AppCompatActivity() {
 
@@ -27,6 +32,9 @@ class MainActivity3 : AppCompatActivity() {
     private lateinit var taskViewModel: TaskViewModel
     private var totalTasks = 0
     private var completedTasks = 0
+    private lateinit var greetings: TextView
+    private lateinit var userViewModel: UserViewModel
+    private var userId: Int = -1
     private val cardItems = listOf(
         CardItem("Daily tasks"),
         CardItem("Calendar"),
@@ -43,11 +51,13 @@ class MainActivity3 : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         val sharedPref = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
         currentUserId = sharedPref.getInt("loggedInUserId", -1)
         super.onCreate(savedInstanceState)
         taskViewModel = ViewModelProvider(this)[TaskViewModel::class.java]
+        userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
         setContentView(R.layout.activity_main3)
         taskViewModel.getTotalTasks(currentUserId).observe(this) { total ->
             totalTasks = total
@@ -69,6 +79,16 @@ class MainActivity3 : AppCompatActivity() {
 
             override fun afterTextChanged(s: android.text.Editable?) {}
         })
+
+
+        greetings = findViewById<TextView>(R.id.textView)
+        var user: User?
+        lifecycleScope.launch {
+            user = userViewModel.getUserbyUserId(currentUserId)
+            greetings.setText("Hello ${user?.name}!")
+        }
+
+
 
         searchButton.setOnClickListener {
             val input = EditText(this)
@@ -137,7 +157,7 @@ class MainActivity3 : AppCompatActivity() {
                     true
                 }
                 R.id.settings -> {
-
+                    startActivity(Intent(this, SettingsView::class.java))
                     true
                 }
                 else -> false

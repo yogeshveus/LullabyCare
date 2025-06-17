@@ -23,13 +23,16 @@ class NutritionTracker(private val baby: BabyProfile) : AppCompatActivity() {
                     startActivity(Intent(this, MainActivity3::class.java))
                     true
                 }
-                R.id.baby -> true
+                R.id.baby -> {
+                    startActivity(Intent(this, YoutubeActivity::class.java))
+                    true
+                }
                 R.id.community -> {
                     startActivity(Intent(this, Community::class.java))
                     true
                 }
                 R.id.settings -> {
-
+                    startActivity(Intent(this, SettingsView::class.java))
                     true
                 }
                 else -> false

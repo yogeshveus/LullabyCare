@@ -1,5 +1,6 @@
 package com.example.babymonitorapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -22,12 +23,14 @@ import java.net.URL
 import java.net.UnknownHostException
 import kotlin.io.path.inputStream
 import androidx.core.view.isVisible
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class YoutubeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityYoutubeBinding
     private var youtubePlayerInstance: YouTubePlayer? = null
     private lateinit var playlistAdapter: PlaylistAdapter
+    private var bottomNav: BottomNavigationView? = null
 
     // --- Configuration ---
     // !!! IMPORTANT: Replace with your actual Playlist ID !!!
@@ -48,6 +51,29 @@ class YoutubeActivity : AppCompatActivity() {
         setupRecyclerView()
 
         fetchPlaylistItems()
+
+        bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        bottomNav?.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.home -> {
+                    startActivity(Intent(this, MainActivity3::class.java))
+                    true
+                }
+                R.id.baby -> {
+                    startActivity(Intent(this, YoutubeActivity::class.java))
+                    true
+                }
+                R.id.community -> {
+                    startActivity(Intent(this, Community::class.java))
+                    true
+                }
+                R.id.settings -> {
+                    startActivity(Intent(this, SettingsView::class.java))
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     private fun setupYoutubePlayer() {
