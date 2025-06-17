@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFF7F8"
+    android:background="@color/backgroundLight"
     tools:context=".DailyTasksView">
 
     <LinearLayout
@@ -18,27 +18,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:title="Calendar"
-        android:titleTextColor="@android:color/white"
-        app:navigationIcon="@drawable/vector__6_"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:title="Calendar"
+            android:titleTextColor="@color/toolbarTextColor"
+            app:navigationIcon="@drawable/vector__6_"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/taskRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#FFF7F8"
+        android:background="@color/recyclerBackground"
         app:layout_constraintTop_toBottomOf="@id/blueContainer"
         app:layout_constraintBottom_toTopOf="@id/addtaskButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="8dp"/>
+        android:padding="8dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addtaskButton"
@@ -53,7 +52,7 @@
         android:id="@+id/bottomNavigationView"
         android:layout_width="0dp"
         android:layout_height="65dp"
-        android:background="#FFF7F8"
+        android:background="@color/bottomNavBackground"
         app:elevation="80dp"
         app:itemIconSize="28dp"
         app:labelVisibilityMode="unlabeled"
@@ -61,6 +60,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_nav_menu" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

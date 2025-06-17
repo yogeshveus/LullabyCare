@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFF7F8"
+    android:background="@color/backgroundLight"
     tools:context=".SettingsView">
 
     <!-- Account Details Header -->
@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="39dp"
-        android:background="#f9f5ff"
+        android:background="@color/settingsGrey"
         android:elevation="2dp"
         android:gravity="start"
         android:padding="16dp"
@@ -51,7 +51,7 @@
         android:id="@+id/editAccountButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#f9f5ff"
+        android:background="@color/settingsGrey"
         android:elevation="2dp"
         android:gravity="start"
         android:padding="16dp"
@@ -79,7 +79,7 @@
         android:textStyle="bold"
         android:textColor="#333"
         android:textSize="16sp"
-        android:background="#f9f5ff"
+        android:background="@color/settingsGrey"
         android:elevation="2dp"
         android:gravity="start"
         app:layout_constraintTop_toBottomOf="@id/divider2" />
@@ -101,7 +101,7 @@
         android:textStyle="bold"
         android:textColor="@android:color/holo_red_dark"
         android:textSize="16sp"
-        android:background="#f9f5ff"
+        android:background="@color/settingsGrey"
         android:elevation="2dp"
         android:gravity="start"
         app:layout_constraintTop_toBottomOf="@id/divider3" />
@@ -118,7 +118,7 @@
         android:id="@+id/bottomNavigationView"
         android:layout_width="0dp"
         android:layout_height="65dp"
-        android:background="#FFF7F8"
+        android:background="@color/backgroundLight"
         app:elevation="8dp"
         app:itemIconSize="28dp"
         app:labelVisibilityMode="unlabeled"
