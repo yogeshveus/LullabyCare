@@ -39,4 +39,8 @@ class TaskViewModel(application: Application): AndroidViewModel(application) {
     fun getTotalTasks(userId: Int): LiveData<Int>{
         return repository.getTotalTasks(userId)
     }
+
+    suspend fun deleteTask(task: Task){
+        repository.deleteTask(task)
+    }
 }

@@ -9,6 +9,11 @@ import android.widget.CheckBox
 import com.example.babymonitorapp.database.Task
 
 class TaskAdapter(private var tasks: MutableList<Task>, private val onTaskCheckedChange: (Task) -> Unit): RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
+    private var onItemLongClick: ((Task) -> Unit)? = null
+
+    fun setOnItemLongClickListener(listener: (Task) -> Unit) {
+        onItemLongClick = listener
+    }
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -33,6 +38,11 @@ class TaskAdapter(private var tasks: MutableList<Task>, private val onTaskChecke
             item.isCompleted = isChecked
             onTaskCheckedChange(item)
         }
+        holder.itemView.setOnLongClickListener {
+            onItemLongClick?.invoke(item)
+            true
+        }
+
     }
 
     override fun getItemCount(): Int {

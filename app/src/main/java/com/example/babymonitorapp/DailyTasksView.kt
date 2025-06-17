@@ -1,6 +1,8 @@
 package com.example.babymonitorapp
 
+import android.app.AlarmManager
 import android.app.AlertDialog
+import android.app.PendingIntent
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
@@ -15,10 +17,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.babymonitorapp.database.Task
 import com.example.babymonitorapp.database.TaskViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.launch
 
 
 class DailyTasksView : AppCompatActivity() {
@@ -91,6 +95,10 @@ class DailyTasksView : AppCompatActivity() {
         binding.addtaskButton.setOnClickListener {
             showAddTaskDialog()
         }
+        adapter.setOnItemLongClickListener {
+            task -> showTaskOptions(task)
+        }
+
 
     }
     private fun showAddTaskDialog(){
@@ -112,5 +120,41 @@ class DailyTasksView : AppCompatActivity() {
             }
             .setNegativeButton("Cancel", null)
             .show()
+
+    }
+    private fun showTaskOptions(task: Task) {
+        val options = arrayOf("Edit", "Delete")
+        androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle("Manage Tasks")
+            .setItems(options) { _, which ->
+                when (which) {
+                    0 -> showEditDialog(task)
+                    1 -> deleteTask(task)
+                }
+            }
+            .show()
+    }
+    private fun showEditDialog(task: Task) {
+        val input = EditText(this).apply {
+            setText(task.title)
+        }
+        androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle("Edit Task")
+            .setView(input)
+            .setPositiveButton("Update") { _, _ ->
+                val newText = input.text.toString().trim()
+                if (newText.isNotEmpty()) {
+                    taskViewModel.updateTask(task)
+                    Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+    private fun deleteTask(task: Task) {
+        lifecycleScope.launch{
+            taskViewModel.deleteTask(task)
+        }
+        Toast.makeText(this, "Deleted", Toast.LENGTH_SHORT).show()
     }
 }
