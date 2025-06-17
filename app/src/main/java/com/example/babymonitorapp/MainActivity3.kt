@@ -26,7 +26,8 @@ class MainActivity3 : AppCompatActivity() {
     private val cardItems = listOf(
         CardItem("Daily tasks"),
         CardItem("Calendar"),
-        CardItem("Nutrition Tracker")
+        CardItem("Nutrition Tracker"),
+        CardItem("Lullaby player")
     )
 
     private val dailyTasksLauncher = registerForActivityResult(
@@ -85,9 +86,12 @@ class MainActivity3 : AppCompatActivity() {
 
         recyclerView = findViewById(R.id.recyclerView)
         bottomNav = findViewById(R.id.bottomNavigationView)
+
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = CardAdapter(cardItems) { item ->
             when (item.title) {
+
+                "Lullaby player" -> startActivity(Intent(this, YoutubeActivity::class.java))
                 "Daily tasks" -> dailyTasksLauncher.launch(Intent(this, DailyTasksView::class.java))
                 "Calendar" -> startActivity(Intent(this, CalendarView::class.java))
                 "Nutrition Tracker" -> startActivity(Intent(this, NutritionTrackerActivity::class.java))
@@ -110,7 +114,10 @@ class MainActivity3 : AppCompatActivity() {
 
                     true
                 }
-                R.id.baby -> true
+                R.id.baby -> {
+                    startActivity(Intent(this, YoutubeActivity::class.java))
+                    true
+                }
                 R.id.community -> {
                     startActivity(Intent(this, Community::class.java))
                     true

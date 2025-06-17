@@ -7,5 +7,6 @@
     <string name="weight_hint">Weight (kg)</string>
     <string name="age_hint">Age (months)</string>
     <string name="get_nutrition_plan">Get Nutrition Plan</string>
-
+    <string name="video_thumbnail">Video thumbnail</string>
+    <string name="error_loading_playlist">Error loading playlist.</string>
 </resources>
