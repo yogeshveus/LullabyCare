@@ -14,4 +14,12 @@ class TaskRepository(private val taskDao: TaskDao) {
     suspend fun updateTask(task: Task) {
         taskDao.updateTask(task)
     }
+
+    fun getCompletedTaskCount(userId: Int): LiveData<Int>{
+        return taskDao.getCompletedTaskCount(userId)
+    }
+
+    fun getTotalTasks(userId: Int): LiveData<Int>{
+        return taskDao.getTotalTasks(userId)
+    }
 }

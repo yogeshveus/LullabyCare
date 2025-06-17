@@ -31,4 +31,12 @@ class TaskViewModel(application: Application): AndroidViewModel(application) {
             repository.updateTask(task)
         }
     }
+
+    fun getCompletedTaskCount(userId: Int): LiveData<Int>{
+        return repository.getCompletedTaskCount(userId)
+    }
+
+    fun getTotalTasks(userId: Int): LiveData<Int>{
+        return repository.getTotalTasks(userId)
+    }
 }
