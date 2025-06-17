@@ -16,9 +16,15 @@ import android.widget.EditText
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.babymonitorapp.database.TaskViewModel
+
 import com.example.babymonitorapp.database.User
 import com.example.babymonitorapp.database.UserViewModel
 import kotlinx.coroutines.launch
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.widget.Toast
+
+
 
 class MainActivity3 : AppCompatActivity() {
 
@@ -55,6 +61,7 @@ class MainActivity3 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val sharedPref = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
         currentUserId = sharedPref.getInt("loggedInUserId", -1)
+
         super.onCreate(savedInstanceState)
         taskViewModel = ViewModelProvider(this)[TaskViewModel::class.java]
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
@@ -193,14 +200,31 @@ class MainActivity3 : AppCompatActivity() {
             val reminderTexts = allReminders.joinToString("\n\n") {
                 val date = it.date
                 val text = it.text
-                "📅 $date\n🔔 $text"
+                val formattedDate = formatReminderDate(date)
+                "📅 $formattedDate\n🔔 $text"
             }
             AlertDialog.Builder(this)
                 .setTitle("Notifications")
                 .setMessage(reminderTexts)
                 .setPositiveButton("OK", null)
+                .setNegativeButton("Clear All") { _, _ ->
+                    dbHelper.deleteAllReminders(currentUserId)
+                }
                 .show()
         }
-        updateNotificationBadge()  // Refresh the badge after showing
+        updateNotificationBadge()
     }
+    private fun formatReminderDate(dateLong: Long): String {
+        val dateStr = dateLong.toString()
+        return if (dateStr.length == 8) {
+            val year = dateStr.substring(0, 4)
+            val month = dateStr.substring(4, 6)
+            val day = dateStr.substring(6, 8)
+            "$day/$month/$year"
+        } else {
+            dateStr // fallback, if something's off
+        }
+    }
+
+
 }

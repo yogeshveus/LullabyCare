@@ -1,9 +1,18 @@
 package com.example.babymonitorapp
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity.ALARM_SERVICE
+import java.text.SimpleDateFormat
+import java.util.Locale
+
+
 
 class ReminderDatabaseHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -151,9 +160,11 @@ class ReminderDatabaseHelper(context: Context) :
 
 
     fun insertNotificationMessage(message: String) {
+        val formattedMessage = formatDateInText(message)
+
         val db = writableDatabase
         val values = ContentValues().apply {
-            put("message", message)
+            put("message", formattedMessage)
             put("timestamp", System.currentTimeMillis())
         }
         db.insert("notifications", null, values)
@@ -171,4 +182,22 @@ class ReminderDatabaseHelper(context: Context) :
         db.close()
         return notifications
     }
+    fun formatDateInText(message: String): String {
+        val regex = Regex("""\b\d{8}\b""")  // matches 8-digit date
+        return regex.replace(message) { matchResult ->
+            val dateStr = matchResult.value
+            val year = dateStr.substring(0, 4).toInt()
+            val month = dateStr.substring(4, 6).toInt()
+            val day = dateStr.substring(6, 8).toInt()
+            "%02d/%02d/%04d".format(day, month, year)
+        }
+    }
+
+    fun deleteAllReminders(userId: Int): Boolean {
+        val db = this.writableDatabase
+        val rows = db.delete("reminders", "userId = ?", arrayOf(userId.toString()))
+        db.close()
+        return rows > 0
+    }
+
 }
