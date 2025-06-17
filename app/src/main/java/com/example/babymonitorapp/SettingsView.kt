@@ -9,7 +9,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import android.widget.Toast
 import android.view.LayoutInflater
 import android.widget.EditText
-
+import androidx.core.content.edit
 
 
 class SettingsView : AppCompatActivity() {
@@ -69,8 +69,12 @@ class SettingsView : AppCompatActivity() {
                 .setTitle("Logout")
                 .setMessage("Are you sure you want to logout?")
                 .setPositiveButton("Logout") { _, _ ->
-                    // TODO: Do logout pls
-
+                    val sharedPref = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
+                    sharedPref.edit { clear() }
+                    Toast.makeText(this, "Successfully Logged Out", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, LoginView::class.java)
+                    startActivity(intent)
+                    finish()
                 }
                 .setNegativeButton("Cancel", null)
                 .show()

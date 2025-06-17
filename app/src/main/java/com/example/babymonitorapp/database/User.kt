@@ -27,6 +27,6 @@ data class Task(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val userId: Int,
-    val title: String,
+    var title: String,
     var isCompleted: Boolean = false
 )

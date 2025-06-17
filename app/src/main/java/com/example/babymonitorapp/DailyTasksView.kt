@@ -144,6 +144,7 @@ class DailyTasksView : AppCompatActivity() {
             .setPositiveButton("Update") { _, _ ->
                 val newText = input.text.toString().trim()
                 if (newText.isNotEmpty()) {
+                    task.title = newText
                     taskViewModel.updateTask(task)
                     Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show()
                 }
