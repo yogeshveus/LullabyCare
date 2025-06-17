@@ -79,7 +79,7 @@ class DailyTasksView : AppCompatActivity() {
                     true
                 }
                 R.id.settings -> {
-
+                    startActivity(Intent(this, YoutubeActivity::class.java))
                     true
                 }
                 else -> false

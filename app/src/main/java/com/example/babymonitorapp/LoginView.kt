@@ -18,7 +18,18 @@ class LoginView : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_login_view)
+        val sharedPref = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
+        val isLogged = sharedPref.getBoolean("isLogged", false)
+        val loginTime = sharedPref.getLong("loginTime", 0L)
+        val currentTime = System.currentTimeMillis()
+        val sevenDaysInMillis = 7 * 24 * 60 * 60 * 1000L
 
+        if (isLogged && currentTime - loginTime < sevenDaysInMillis) {
+            val intent = Intent(this, MainActivity3::class.java)
+            startActivity(intent)
+            finish()
+            return
+        }
         val loginButton = findViewById<Button>(R.id.btnLogin)
         val registerButton = findViewById<Button>(R.id.register)
         val usernameEditText = findViewById<EditText>(R.id.etUsername)
@@ -31,7 +42,12 @@ class LoginView : AppCompatActivity() {
                 val user = userViewModel.login(username, password)
                 if (user != null) {
                     val sharedPref = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
-                    sharedPref.edit { putInt("loggedInUserId", user.id) }
+                    sharedPref.edit {
+                        putInt("loggedInUserId", user.id)
+                        putBoolean("isLogged", true)
+                        putLong("loginTime", System.currentTimeMillis())
+                    }
+
                     Toast.makeText(this@LoginView, "Successfully Logged in", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this@LoginView, MainActivity3::class.java)
                     startActivity(intent)
