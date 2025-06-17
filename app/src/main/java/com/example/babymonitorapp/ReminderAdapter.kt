@@ -34,13 +34,25 @@ class ReminderAdapter(private var reminders: List<Reminder>) : RecyclerView.Adap
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val reminder = reminders[position]
-        (holder.itemView as TextView).text = reminder.text
+        val rawDate = reminder.date.toString()
+
+        val formattedDate = if (rawDate.length == 8) {
+            val year = rawDate.substring(0, 4)
+            val month = rawDate.substring(4, 6)
+            val day = rawDate.substring(6, 8)
+            "$day/$month/$year"
+        } else {
+            rawDate
+        }
+
+        (holder.itemView as TextView).text = "${reminder.text}\n\n📅 $formattedDate"
 
         holder.itemView.setOnLongClickListener {
             onItemLongClick?.invoke(reminder)
             true
         }
     }
+
 
     override fun getItemCount(): Int = reminders.size
 

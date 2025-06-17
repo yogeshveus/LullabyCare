@@ -229,4 +229,5 @@ class CalendarView : AppCompatActivity() {
         val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
         alarmManager.cancel(pendingIntent)
     }
+
 }
