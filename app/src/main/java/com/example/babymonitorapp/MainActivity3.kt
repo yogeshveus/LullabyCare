@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.activity.result.contract.ActivityResultContracts
 import android.widget.EditText
+import androidx.lifecycle.ViewModelProvider
+import com.example.babymonitorapp.database.TaskViewModel
 
 class MainActivity3 : AppCompatActivity() {
 
@@ -22,7 +24,9 @@ class MainActivity3 : AppCompatActivity() {
     private lateinit var notificationButton: ImageButton
     private lateinit var badgeTextView: TextView
     private var currentUserId: Int = -1
-
+    private lateinit var taskViewModel: TaskViewModel
+    private var totalTasks = 0
+    private var completedTasks = 0
     private val cardItems = listOf(
         CardItem("Daily tasks"),
         CardItem("Calendar"),
@@ -35,7 +39,7 @@ class MainActivity3 : AppCompatActivity() {
     ) { result ->
         if (result.resultCode == RESULT_OK) {
             val completedTasks = result.data?.getIntExtra("completed_tasks", 0) ?: 0
-            adapter.updateTasks(completedTasks)
+            adapter.updateTasks(completedTasks, totalTasks)
         }
     }
 
@@ -43,7 +47,17 @@ class MainActivity3 : AppCompatActivity() {
         val sharedPref = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
         currentUserId = sharedPref.getInt("loggedInUserId", -1)
         super.onCreate(savedInstanceState)
+        taskViewModel = ViewModelProvider(this)[TaskViewModel::class.java]
         setContentView(R.layout.activity_main3)
+        taskViewModel.getTotalTasks(currentUserId).observe(this) { total ->
+            totalTasks = total
+            updateProgressIfReady()
+        }
+
+        taskViewModel.getCompletedTaskCount(currentUserId).observe(this) { completed ->
+            completedTasks = completed
+            updateProgressIfReady()
+        }
         val searchButton: ImageButton = findViewById(R.id.imageButton7)
         val searchEditText: EditText = findViewById(R.id.editTextText)
         searchEditText.addTextChangedListener(object : android.text.TextWatcher {
@@ -128,6 +142,12 @@ class MainActivity3 : AppCompatActivity() {
                 }
                 else -> false
             }
+        }
+    }
+
+    private fun updateProgressIfReady() {
+        if (totalTasks > 0) {
+            adapter.updateTasks(completedTasks, totalTasks)
         }
     }
 

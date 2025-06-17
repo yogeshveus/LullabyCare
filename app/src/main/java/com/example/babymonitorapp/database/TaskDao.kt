@@ -11,6 +11,12 @@ interface TaskDao {
     @Query("SELECT * FROM task WHERE userId = :userId")
     fun getTasksForUser(userId: Int): LiveData<List<Task>>
 
+    @Query("SELECT COUNT(*) FROM task WHERE userId = :userId AND isCompleted = 1")
+    fun getCompletedTaskCount(userId: Int): LiveData<Int>
+
+    @Query("SELECT COUNT(*) FROM task WHERE userId = :userId")
+    fun getTotalTasks(userId: Int): LiveData<Int>
+
     @Delete
     suspend fun deleteTask(task: Task)
 

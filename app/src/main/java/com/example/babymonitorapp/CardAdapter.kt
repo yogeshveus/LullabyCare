@@ -6,7 +6,9 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.example.babymonitorapp.database.UserViewModel
 
 class CardAdapter(
     private val originalItems: List<CardItem>,
@@ -15,7 +17,7 @@ class CardAdapter(
 
     private var filteredItems: List<CardItem> = originalItems
     private var numTasks: Int = 0
-
+    private var totalTasks: Int = 0
     class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titleText: TextView = itemView.findViewById(R.id.textViewTitle)
         val cardView: CardView = itemView.findViewById(R.id.cardView)
@@ -40,9 +42,9 @@ class CardAdapter(
         if (item.title == "Daily tasks") {
             holder.progressBar.visibility = View.VISIBLE
             holder.progressPercent.visibility = View.VISIBLE
+            holder.progressBar.max = totalTasks
             holder.progressBar.progress = numTasks
-            holder.progressPercent.text = "${holder.progressBar.progress / 10}/10"
-        } else {
+            holder.progressPercent.text = "$numTasks/$totalTasks Tasks Completed"        } else {
             holder.progressBar.visibility = View.GONE
             holder.progressPercent.visibility = View.GONE
         }
@@ -50,8 +52,9 @@ class CardAdapter(
 
     override fun getItemCount() = filteredItems.size
 
-    fun updateTasks(num: Int) {
-        numTasks = num
+    fun updateTasks(completed: Int, total: Int) {
+        numTasks = completed
+        totalTasks = total
         notifyItemChanged(0)
     }
 
