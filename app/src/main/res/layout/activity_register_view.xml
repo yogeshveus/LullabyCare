@@ -12,7 +12,6 @@
         android:id="@+id/tvSignIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="130dp"
         android:padding="10dp"
         android:text="Register"
         android:textAlignment="center"
@@ -121,6 +120,31 @@
         app:layout_constraintTop_toBottomOf="@id/etPassword"/>
 
     <EditText
+        android:id="@+id/etConfirmPassword"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:alpha="0.4"
+        android:background="@drawable/search_bar_background"
+        android:hint="Confirm Password"
+        android:inputType="textPassword"
+        android:padding="12dp"
+        android:textColor="@color/dividerGrey"
+        android:textColorHint="@color/dividerGrey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/breakLine2" />
+
+    <View
+        android:id="@+id/breakLine8"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:background="@color/dividerGrey"
+        android:alpha="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etConfirmPassword"/>
+
+    <EditText
         android:id="@+id/etnumber"
         android:layout_width="0dp"
         android:layout_height="48dp"
@@ -133,10 +157,10 @@
         android:textColorHint="@color/dividerGrey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/breakLine2" />
+        app:layout_constraintTop_toBottomOf="@id/breakLine8" />
 
     <View
-        android:id="@+id/breakLine8"
+        android:id="@+id/breakLine3"
         android:layout_width="0dp"
         android:layout_height="20dp"
         android:background="@color/dividerGrey"
@@ -154,12 +178,13 @@
         android:textAllCaps="true"
         android:textColor="@color/primaryBlue"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/breakLine8"
+        app:layout_constraintTop_toBottomOf="@id/breakLine3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+
     <View
-        android:id="@+id/breakLine3"
+        android:id="@+id/breakLine9"
         android:layout_width="0dp"
         android:layout_height="20dp"
         android:background="@color/dividerGrey"
@@ -169,13 +194,12 @@
         app:layout_constraintTop_toBottomOf="@id/btnLogin"/>
 
 
-
     <View
         android:id="@+id/viewDividerLeft"
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:background="@color/dividerGrey"
-        app:layout_constraintTop_toBottomOf="@id/breakLine3"
+        app:layout_constraintTop_toBottomOf="@id/breakLine9"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/tvOr"/>
 
@@ -187,7 +211,7 @@
         android:text="or"
         android:textColor="@color/dividerGrey"
         android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@id/breakLine3"
+        app:layout_constraintTop_toBottomOf="@id/breakLine9"
         app:layout_constraintStart_toEndOf="@id/viewDividerLeft"
         app:layout_constraintEnd_toStartOf="@id/viewDividerRight" />
 
@@ -198,7 +222,7 @@
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:background="@color/dividerGrey"
-        app:layout_constraintTop_toBottomOf="@id/breakLine3"
+        app:layout_constraintTop_toBottomOf="@id/breakLine9"
         app:layout_constraintStart_toEndOf="@id/tvOr"
         app:layout_constraintEnd_toEndOf="parent"/>
 

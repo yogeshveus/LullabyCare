@@ -39,7 +39,9 @@ class RegisterView : AppCompatActivity() {
         val name = findViewById<EditText>(R.id.etname).text.toString()
         val user = findViewById<EditText>(R.id.etUsername).text.toString()
         val password = findViewById<EditText>(R.id.etPassword).text.toString()
+        val cpassword = findViewById<EditText>(R.id.etConfirmPassword).text.toString()
         val phone = findViewById<EditText>(R.id.etnumber).text.toString()
+
         if (!checkInput(name,user,password,phone)){
             Toast.makeText(this, "Please fill out all the details.", Toast.LENGTH_LONG).show()
             return
@@ -56,7 +58,10 @@ class RegisterView : AppCompatActivity() {
                 Toast.makeText(this@RegisterView, "Password size must be at least 8", Toast.LENGTH_LONG).show()
             } else if (!validPhone(phone)) {
                 Toast.makeText(this@RegisterView, "Please provide a valid phone number.", Toast.LENGTH_LONG).show()
-            } else {
+            } else if (!validPassword4(password, cpassword)){
+                Toast.makeText(this@RegisterView, "Passwords don't match", Toast.LENGTH_LONG).show()
+            }
+            else {
                 val userObj = User(0, name, user, password, phone)
                 mUserViewModel.insertUser(userObj)
                 Toast.makeText(this@RegisterView, "Successfully Registered!", Toast.LENGTH_LONG).show()
@@ -77,7 +82,9 @@ class RegisterView : AppCompatActivity() {
     private fun validPassword3(password: String): Boolean {
         return (password.length>=8)
     }
-
+    private fun validPassword4(password: String, cpassword: String): Boolean {
+        return (password == cpassword)
+    }
     private fun validPhone(phone: String): Boolean {
         return (phone.length==10)
     }
