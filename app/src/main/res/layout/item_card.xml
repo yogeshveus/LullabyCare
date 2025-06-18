@@ -20,7 +20,7 @@
             android:id="@+id/textViewTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Card Title"
+            android:text="@string/card_title"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -37,7 +37,7 @@
             android:id="@+id/progressPercent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="5/10"
+            android:text="@string/_5_10"
             android:visibility="gone"
             android:layout_marginTop="4dp" />
     </LinearLayout>

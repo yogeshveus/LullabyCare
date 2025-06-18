@@ -17,4 +17,16 @@
     <color name="inputFieldAlpha">#66FFFFFF</color>
 
     <color name="settingsGrey">#F9F5FF</color>
+
+    <color name="text_input_edit_text_background_light">#FFFFFF</color>
+
+    <color name="text_input_edit_text_background_dark">#2E2E2E</color>
+    <!-- ... other colors ... -->
+    <color name="text_input_fill_color_light">#F5F5F5</color> <!-- Light gray fill -->
+    <color name="text_input_border_color_light">#BDBDBD</color> <!-- Medium gray border -->
+    <color name="text_input_focused_border_color_light">?attr/colorPrimary</color>
+    <!-- ... other colors ... -->
+    <color name="text_input_fill_color_dark">#121212</color>   <!-- Your desired dark fill -->
+    <color name="text_input_border_color_dark">#424242</color>   <!-- Darker gray border -->
+    <color name="text_input_focused_border_color_dark">?attr/colorPrimary</color>
 </resources>
