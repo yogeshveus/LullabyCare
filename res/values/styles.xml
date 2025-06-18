@@ -1,0 +1,7 @@
+
+<resources>
+    <style name="CalendarCustomStyle" parent="Theme.MaterialComponents.DayNight">
+        <item name="android:textColorPrimary">#FFF7F8</item> <!-- Set to your desired color -->
+    </style>
+</resources>
+

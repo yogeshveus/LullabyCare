@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primaryBlue"
+    android:padding="24dp">
+
+
+    <TextView
+        android:id="@+id/tvSignIn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="@string/register1"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tvSubtitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvSubtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="@string/please_register"
+        android:textColor="@color/dividerGrey"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSignIn" />
+
+    <View
+        android:id="@+id/breakLine7"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:background="@color/dividerGrey"
+        android:alpha="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSubtitle"/>
+
+    <EditText
+        android:id="@+id/etname"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:alpha="0.4"
+        android:background="@drawable/search_bar_background"
+        android:hint="@string/name"
+        android:padding="12dp"
+        android:textColor="@android:color/white"
+        android:textColorHint="@color/dividerGrey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/breakLine7" />
+
+    <View
+        android:id="@+id/breakLine6"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:background="@color/dividerGrey"
+        android:alpha="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etname"/>
+
+    <EditText
+        android:id="@+id/etUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alpha="0.4"
+        android:background="@drawable/search_bar_background"
+        android:hint="@string/username1"
+        android:padding="12dp"
+        android:textColor="@android:color/white"
+        android:textColorHint="@color/dividerGrey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/breakLine6" />
+
+    <View
+        android:id="@+id/breakLine"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:background="@color/dividerGrey"
+        android:alpha="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etUsername"/>
+
+
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:alpha="0.4"
+        android:background="@drawable/search_bar_background"
+        android:hint="@string/password1"
+        android:inputType="textPassword"
+        android:padding="12dp"
+        android:textColor="@color/dividerGrey"
+        android:textColorHint="@color/dividerGrey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/breakLine" />
+
+    <View
+        android:id="@+id/breakLine2"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:background="@color/dividerGrey"
+        android:alpha="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etPassword"/>
+
+    <EditText
+        android:id="@+id/etConfirmPassword"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:alpha="0.4"
+        android:background="@drawable/search_bar_background"
+        android:hint="@string/confirm_password"
+        android:inputType="textPassword"
+        android:padding="12dp"
+        android:textColor="@color/dividerGrey"
+        android:textColorHint="@color/dividerGrey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/breakLine2" />
+
+    <View
+        android:id="@+id/breakLine8"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:background="@color/dividerGrey"
+        android:alpha="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etConfirmPassword"/>
+
+    <EditText
+        android:id="@+id/etnumber"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:alpha="0.4"
+        android:background="@drawable/search_bar_background"
+        android:hint="@string/phone_number"
+        android:inputType="phone"
+        android:padding="12dp"
+        android:textColor="@android:color/white"
+        android:textColorHint="@color/dividerGrey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/breakLine8" />
+
+    <View
+        android:id="@+id/breakLine3"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:background="@color/dividerGrey"
+        android:alpha="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etnumber"/>
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:backgroundTint="@color/accentPink"
+        android:text="@string/register2"
+        android:textAllCaps="true"
+        android:textColor="@color/primaryBlue"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/breakLine3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    <View
+        android:id="@+id/breakLine9"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:background="@color/dividerGrey"
+        android:alpha="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnLogin"/>
+
+
+    <View
+        android:id="@+id/viewDividerLeft"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/dividerGrey"
+        app:layout_constraintTop_toBottomOf="@id/breakLine9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tvOr"/>
+
+
+    <TextView
+        android:id="@+id/tvOr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/or1"
+        android:textColor="@color/dividerGrey"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/breakLine9"
+        app:layout_constraintStart_toEndOf="@id/viewDividerLeft"
+        app:layout_constraintEnd_toStartOf="@id/viewDividerRight" />
+
+
+
+    <View
+        android:id="@+id/viewDividerRight"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/dividerGrey"
+        app:layout_constraintTop_toBottomOf="@id/breakLine9"
+        app:layout_constraintStart_toEndOf="@id/tvOr"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <View
+        android:id="@+id/breakLine5"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:background="@color/dividerGrey"
+        android:alpha="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvOr"/>
+
+
+    <Button
+        android:id="@+id/register"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:backgroundTint="@color/secondaryBlue"
+        android:text="@string/login1"
+        android:textColor="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/breakLine5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

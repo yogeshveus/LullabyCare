@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="backgroundLight">#FFF7F8</color>
+    <color name="toolbarBackground">#0B2F3D</color>
+    <color name="toolbarTextColor">#FFFFFF</color>
+    <color name="recyclerBackground">#FFF7F8</color>
+    <color name="bottomNavBackground">#FFF7F8</color>
+
+    <color name="primaryBlue">#2D3A74</color>
+    <color name="headingText">#2F3D7E</color>
+    <color name="white">#FFFFFF</color>
+
+    <color name="accentPink">#FBEAEA</color>
+    <color name="secondaryBlue">#3C4E9B</color>
+    <color name="dividerGrey">#B0B4D8</color>
+    <color name="whiteText">#FFFFFF</color>
+    <color name="inputFieldAlpha">#66FFFFFF</color>
+
+    <color name="settingsGrey">#F9F5FF</color>
+</resources>
