@@ -1,5 +1,6 @@
 package com.example.babymonitorapp
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -9,6 +10,7 @@ import android.util.Log
 import android.widget.Toast
 
 class ReminderReceiver : BroadcastReceiver() {
+    @SuppressLint("MissingPermission")
     override fun onReceive(context: Context, intent: Intent) {
         val text = intent.getStringExtra("text") ?: "Reminder"
 

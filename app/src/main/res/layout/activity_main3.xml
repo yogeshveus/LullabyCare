@@ -31,8 +31,6 @@
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
 
-                <!-- Left Icon -->
-
                 <!-- Greeting Text -->
                 <TextView
                     android:id="@+id/textView"
@@ -40,8 +38,10 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="sans-serif-medium"
-                    android:gravity="center"
+                    android:gravity="start"
+                    android:paddingStart="10dp"
                     android:text="Good Morning!"
+                    android:textAlignment="textStart"
                     android:textColor="#FBFBFB"
                     android:textSize="30sp" />
 

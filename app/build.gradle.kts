@@ -51,6 +51,8 @@ dependencies {
     ksp(libs.androidx.room.compiler)
 
     // your existing dependencies...
+    implementation ("com.squareup.okhttp3:okhttp:4.11.0")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation(libs.lifecycle.viewmodel.ktx.v270)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.extensions)

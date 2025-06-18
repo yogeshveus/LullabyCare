@@ -1,128 +1,89 @@
 package com.example.babymonitorapp
 
-import android.content.Intent
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import android.util.Log
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
 
+object NutritionTracker {
 
-class NutritionTracker(private val baby: BabyProfile) : AppCompatActivity() {
-
+    private const val apiKey = "AIzaSyBOal88cXbIw2-49yRFvYJmBJloJlRSEsY" // Replace with your actual API key
+    private val client = OkHttpClient()
     private val foodLog = mutableListOf<FoodEntry>()
-    private var bottomNav: BottomNavigationView? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_nutrition_tracker)
+    suspend fun getDietRecommendation(prompt: String): String {
+        return withContext(Dispatchers.IO) {
+            try {
+                val json = """
+                {
+                  "contents": [
+                    {
+                      "role": "user",
+                      "parts": [
+                        {
+                          "text": "$prompt"
+                        }
+                      ]
+                    }
+                  ]
+                }
+                """.trimIndent()
 
-        bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+                val body = json.toRequestBody("application/json".toMediaTypeOrNull())
+                val request = Request.Builder()
+                    .url("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=$apiKey")
+                    .post(body)
+                    .build()
 
-        bottomNav?.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.home -> {
-                    startActivity(Intent(this, MainActivity3::class.java))
-                    true
+                val response = client.newCall(request).execute()
+                val responseBody = response.body?.string() ?: ""
+
+                Log.d("GeminiResponse", "Response Body: $responseBody")
+
+                val jsonResponse = JSONObject(responseBody)
+
+                if (jsonResponse.has("candidates")) {
+                    val text = jsonResponse.getJSONArray("candidates")
+                        .getJSONObject(0)
+                        .getJSONObject("content")
+                        .getJSONArray("parts")
+                        .getJSONObject(0)
+                        .getString("text")
+                    text
+                } else if (jsonResponse.has("error")) {
+                    val errorMessage = jsonResponse.getJSONObject("error").getString("message")
+                    Log.e("GeminiError", errorMessage)
+                    "Error from Gemini: $errorMessage"
+                } else {
+                    "No response candidates received."
                 }
-                R.id.baby -> {
-                    startActivity(Intent(this, YoutubeActivity::class.java))
-                    true
-                }
-                R.id.community -> {
-                    startActivity(Intent(this, Community::class.java))
-                    true
-                }
-                R.id.settings -> {
-                    startActivity(Intent(this, SettingsView::class.java))
-                    true
-                }
-                else -> false
+            } catch (e: Exception) {
+                Log.e("GeminiError", "Error fetching suggestion", e)
+                "Unable to get recommendation. Please try again."
             }
         }
     }
 
-    fun addFood(name: String, calories: Int, protein: Double, carbs: Double, fats: Double) {
-        val entry = FoodEntry(name = name, calories = calories, protein = protein, carbs = carbs, fats = fats)
+    fun addFood(entry: FoodEntry) {
         foodLog.add(entry)
     }
 
-    fun getSummary(): Map<String, Double> {
-        return mapOf(
-            "Calories" to foodLog.sumOf { it.calories.toDouble() },
-            "Protein (g)" to foodLog.sumOf { it.protein },
-            "Carbs (g)" to foodLog.sumOf { it.carbs },
-            "Fats (g)" to foodLog.sumOf { it.fats }
-        )
-    }
-
-    fun getDietRecommendation(): DietRecommendation {
-        val heightM = baby.heightCm / 100
-        val bmi = baby.weightKg / (heightM * heightM)
-
-        val bmiCategory = when {
-            bmi < 14 -> "Underweight"
-            bmi > 18 -> "Overweight"
-            else -> "Normal"
-        }
-
-        return when (baby.ageInMonths) {
-            in 0..6 -> DietRecommendation(
-                "0–6 months | $bmiCategory",
-                "500–700 kcal/day",
-                "Exclusive breastfeeding or formula feeding is advised.\n",
-                listOf("Breastmilk", "Infant formula")
-            )
-
-            in 7..12 -> {
-                val meals = when (bmiCategory) {
-                    "Underweight" -> listOf("Mashed banana with ghee", "Rice cereal with formula", "Mashed potato", "Full-fat yogurt", "Egg yolk\n")
-                    "Overweight" -> listOf("Steamed veggies", "Unsweetened fruit puree", "Light dal water", "Oats porridge (thin)\n")
-                    else -> listOf("Rice cereal", "Mashed fruits", "Pureed veggies", "Dal soup", "Soft-boiled egg yolk")
-                }
-                DietRecommendation(
-                    "7–12 months | $bmiCategory",
-                    "700–900 kcal/day",
-                    "Introduce solids alongside milk feeding.\n",
-                    meals
-                )
-            }
-
-            in 13..24 -> {
-                val meals = when (bmiCategory) {
-                    "Underweight" -> listOf("Khichdi with ghee", "Paneer cubes", "Ripe banana", "Eggs", "Sweet potato mash")
-                    "Overweight" -> listOf("Steamed vegetables", "Thin dal", "Boiled rice (no ghee)", "Fruits")
-                    else -> listOf("Chapati with ghee", "Fruit pieces", "Vegetable khichdi", "Boiled egg", "Paneer cubes")
-                }
-                DietRecommendation(
-                    "13–24 months | $bmiCategory",
-                    "900–1000 kcal/day",
-                    "Balanced meals including protein, iron, and vitamin A.\n",
-                    meals
-                )
-            }
-
-            else -> {
-                val meals = when (bmiCategory) {
-                    "Underweight" -> listOf("Idli with ghee", "Milk oats with banana", "Boiled sweet potato", "Cheese toast", "Dry fruit powder mix")
-                    "Overweight" -> listOf("Vegetable soup", "Steamed idli", "Low sugar fruit snacks", "Roti without ghee")
-                    else -> listOf("Idli with sambar", "Milk oats", "Boiled sweet potato", "Roti and dal", "Vegetable soup")
-                }
-                DietRecommendation(
-                    "2+ years | $bmiCategory",
-                    "1000–1400 kcal/day (varies by activity)",
-                    "Use growth charts and consult a pediatric dietitian if unsure.\n",
-                    meals
-                )
-            }
-        }
-    }
+    fun getSummary(): Map<String, Double> = mapOf(
+        "Calories" to foodLog.sumOf { it.calories.toDouble() },
+        "Protein (g)" to foodLog.sumOf { it.protein },
+        "Carbs (g)" to foodLog.sumOf { it.carbs },
+        "Fats (g)" to foodLog.sumOf { it.fats }
+    )
 
     fun clearAllEntries() {
         foodLog.clear()
     }
 
-    fun removeEntryById(id: String): Boolean {
-        return foodLog.removeIf { it.id == id }
-    }
+    fun removeEntryById(id: String): Boolean = foodLog.removeIf { it.id == id }
 
     fun getAllEntries(): List<FoodEntry> = foodLog
 }
