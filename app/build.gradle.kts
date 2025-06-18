@@ -42,7 +42,6 @@ android {
 
 dependencies {
     val roomVersion = "2.6.1"
-
     // Room core dependencies
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
