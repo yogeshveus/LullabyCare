@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("com.google.devtools.ksp")
     id("org.jetbrains.kotlin.kapt")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -50,6 +51,17 @@ dependencies {
     // KSP Room annotation processor
     ksp(libs.androidx.room.compiler)
 
+    // Import the Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:33.15.0"))
+
+
+    // TODO: Add the dependencies for Firebase products you want to use
+    // When using the BoM, don't specify versions in Firebase dependencies
+    implementation("com.google.firebase:firebase-analytics")
+
+    implementation("com.google.firebase:firebase-auth")
+
+
     // your existing dependencies...
     implementation ("com.squareup.okhttp3:okhttp:4.11.0")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
@@ -72,4 +84,6 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.glide)
     implementation(libs.androidx.recyclerview)
+    implementation ("com.google.android.gms:play-services-auth:20.7.0")
+    implementation ("com.google.android.play:integrity:1.3.0")
 }

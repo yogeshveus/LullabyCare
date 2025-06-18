@@ -160,7 +160,7 @@
         app:layout_constraintTop_toBottomOf="@id/breakLine8" />
 
     <View
-        android:id="@+id/breakLine3"
+        android:id="@+id/breakLine10"
         android:layout_width="0dp"
         android:layout_height="20dp"
         android:background="@color/dividerGrey"
@@ -168,20 +168,45 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etnumber"/>
+    <EditText
+        android:id="@+id/otpField"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:alpha="0.4"
+        android:background="@drawable/search_bar_background"
+        android:hint="Enter OTP"
+        android:inputType="number"
+        android:padding="12dp"
+        android:textColor="@android:color/white"
+        android:textColorHint="@color/dividerGrey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/breakLine10"/>
+
+    <View
+        android:id="@+id/breakLine3"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:background="@color/dividerGrey"
+        android:alpha="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/otpField"/>
 
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="0dp"
         android:layout_height="48dp"
+        android:layout_marginTop="4dp"
         android:backgroundTint="@color/accentPink"
         android:text="REGISTER"
         android:textAllCaps="true"
         android:textColor="@color/primaryBlue"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/breakLine3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
+        app:layout_constraintTop_toBottomOf="@id/breakLine3" />
 
     <View
         android:id="@+id/breakLine9"
@@ -226,26 +251,19 @@
         app:layout_constraintStart_toEndOf="@id/tvOr"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <View
-        android:id="@+id/breakLine5"
-        android:layout_width="0dp"
-        android:layout_height="20dp"
-        android:background="@color/dividerGrey"
-        android:alpha="0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvOr"/>
 
 
     <Button
         android:id="@+id/register"
         android:layout_width="0dp"
         android:layout_height="48dp"
+        android:layout_marginTop="32dp"
         android:backgroundTint="@color/secondaryBlue"
         android:text="LOGIN"
         android:textColor="@android:color/white"
-        app:layout_constraintTop_toBottomOf="@id/breakLine5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/viewDividerRight" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
