@@ -42,6 +42,10 @@ class TaskAdapter(private var tasks: MutableList<Task>, private val onTaskChecke
             onItemLongClick?.invoke(item)
             true
         }
+        holder.checkBox.setOnLongClickListener {
+            onItemLongClick?.invoke(item)
+            true
+        }
 
     }
 
