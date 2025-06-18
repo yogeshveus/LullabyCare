@@ -11,7 +11,7 @@ data class User(
     var name: String,
     var user: String,
     var password: String,
-    val phone: String
+    var phone: String
 )
 
 @Entity(
