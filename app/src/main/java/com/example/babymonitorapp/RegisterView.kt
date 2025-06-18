@@ -8,6 +8,7 @@ import android.widget.*
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
+import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.babymonitorapp.database.User
@@ -96,13 +97,13 @@ class RegisterView : AppCompatActivity() {
             .setActivity(this)
             .setCallbacks(object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                 override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-                    // Instant verification (rare)
                     toast("Auto OTP Verified.")
                     fillOtpAndRegister(credential)
                 }
 
                 override fun onVerificationFailed(e: FirebaseException) {
                     toast("OTP send failed: ${e.message}")
+                    Log.d("RegisterView", "OTP send failed: ${e.message}")
                 }
 
                 override fun onCodeSent(
