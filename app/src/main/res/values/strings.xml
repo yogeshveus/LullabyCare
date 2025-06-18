@@ -54,4 +54,8 @@
     <string name="calendarCal">Calendar</string>
     <string name="reminders">Reminders</string>
     <string name="nameDialog">Name</string>
+    <string name="profile">Profile</string>
+    <string name="home">Home</string>
+    <string name="community">Community</string>
+    <string name="notificationsBotNav">Notifications</string>
 </resources>

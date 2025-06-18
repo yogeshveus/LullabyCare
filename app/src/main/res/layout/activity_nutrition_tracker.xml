@@ -44,7 +44,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/enter_baby_age"
                 android:textSize="16sp"
-                android:textColor="@android:color/black"
                 android:layout_marginTop="8dp"/>
 
             <EditText
@@ -55,7 +54,6 @@
                 android:inputType="number"
                 android:background="@drawable/edittext_border"
                 android:padding="12dp"
-                android:textColor="@android:color/black"
                 android:textColorHint="#808080"/>
 
             <!-- Weight Label -->
@@ -64,7 +62,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/enter_baby_weight"
                 android:textSize="16sp"
-                android:textColor="@android:color/black"
                 android:layout_marginTop="16dp"/>
 
             <EditText
@@ -75,7 +72,6 @@
                 android:inputType="numberDecimal"
                 android:background="@drawable/edittext_border"
                 android:padding="12dp"
-                android:textColor="@android:color/black"
                 android:textColorHint="#808080"/>
 
             <!-- Height Label -->
@@ -84,7 +80,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/enter_baby_height"
                 android:textSize="16sp"
-                android:textColor="@android:color/black"
                 android:layout_marginTop="16dp"/>
 
             <EditText
@@ -95,7 +90,6 @@
                 android:inputType="numberDecimal"
                 android:background="@drawable/edittext_border"
                 android:padding="12dp"
-                android:textColor="@android:color/black"
                 android:textColorHint="#808080"/>
 
             <!-- Submit Button -->
@@ -126,7 +120,6 @@
         android:id="@+id/bottomNavigationView"
         android:layout_width="0dp"
         android:layout_height="65dp"
-        android:background="@color/backgroundLight"
         app:elevation="8dp"
         app:itemIconSize="28dp"
         app:labelVisibilityMode="unlabeled"
