@@ -6,14 +6,14 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundLight">
+    android:background="?android:attr/windowBackground">
 
     <!-- Nutrition Tracker Heading -->
     <TextView
         android:id="@+id/nutritionTrackerHeading"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Nutrition Tracker"
+        android:text="@string/nutrition_tracker"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@color/primaryBlue"
@@ -42,9 +42,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Enter Baby Age"
+                android:text="@string/enter_baby_age"
                 android:textSize="16sp"
-                android:textColor="@android:color/black"
                 android:layout_marginTop="8dp"/>
 
             <EditText
@@ -55,16 +54,14 @@
                 android:inputType="number"
                 android:background="@drawable/edittext_border"
                 android:padding="12dp"
-                android:textColor="@android:color/black"
                 android:textColorHint="#808080"/>
 
             <!-- Weight Label -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Enter Baby Weight"
+                android:text="@string/enter_baby_weight"
                 android:textSize="16sp"
-                android:textColor="@android:color/black"
                 android:layout_marginTop="16dp"/>
 
             <EditText
@@ -75,16 +72,14 @@
                 android:inputType="numberDecimal"
                 android:background="@drawable/edittext_border"
                 android:padding="12dp"
-                android:textColor="@android:color/black"
                 android:textColorHint="#808080"/>
 
             <!-- Height Label -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Enter Baby Height"
+                android:text="@string/enter_baby_height"
                 android:textSize="16sp"
-                android:textColor="@android:color/black"
                 android:layout_marginTop="16dp"/>
 
             <EditText
@@ -95,7 +90,6 @@
                 android:inputType="numberDecimal"
                 android:background="@drawable/edittext_border"
                 android:padding="12dp"
-                android:textColor="@android:color/black"
                 android:textColorHint="#808080"/>
 
             <!-- Submit Button -->
@@ -126,7 +120,6 @@
         android:id="@+id/bottomNavigationView"
         android:layout_width="0dp"
         android:layout_height="65dp"
-        android:background="@color/backgroundLight"
         app:elevation="8dp"
         app:itemIconSize="28dp"
         app:labelVisibilityMode="unlabeled"

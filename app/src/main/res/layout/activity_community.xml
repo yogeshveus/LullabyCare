@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundLight"
+    android:background="?android:attr/windowBackground"
     android:padding="8dp">
 
     <fragment
@@ -23,18 +23,17 @@
             android:id="@+id/editTextLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter location"
+            android:hint="@string/enter_location"
             android:background="@drawable/edittext_border"
-            android:padding="12dp"
-            android:textColor="@android:color/black"
-            android:textColorHint="@android:color/darker_gray" />
+            android:padding="12dp"/>
 
         <Button
             android:id="@+id/buttonSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Search"
+            android:text="@string/searchCom"
+            android:textColor="@color/whiteText"
             android:backgroundTint="@color/primaryBlue"
             app:cornerRadius="10sp" />
     </LinearLayout>
@@ -52,7 +51,6 @@
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:background="@color/backgroundLight"
         app:elevation="8dp"
         app:itemIconSize="28dp"
         app:labelVisibilityMode="unlabeled"

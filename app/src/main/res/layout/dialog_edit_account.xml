@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="?android:attr/windowBackground">
 
     <TextView
         android:text="Name:"
@@ -16,6 +17,7 @@
         android:id="@+id/editName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/nameDialog"
         android:inputType="textPersonName" />
 
     <TextView
@@ -29,7 +31,9 @@
         android:id="@+id/editUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName" />
+        android:hint="@string/username"
+        android:inputType="textPersonName"
+        android:layout_marginTop="8dp"/>
 
     <TextView
         android:text="Password:"
@@ -42,7 +46,9 @@
         android:id="@+id/editPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPassword" />
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:layout_marginTop="8dp"/>
 
     <TextView
         android:text="Phone Number:"
@@ -55,6 +61,8 @@
         android:id="@+id/editPhone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="phone" />
+        android:hint="@string/phone_number"
+        android:inputType="phone"
+        android:layout_marginTop="8dp"/>
 
 </LinearLayout>

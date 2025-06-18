@@ -4,4 +4,15 @@
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
     </style>
+        <!-- ... other styles ... -->
+
+        <style name="MyCustomTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            <!-- This attribute controls the background color of the input area in night mode -->
+            <item name="boxBackgroundColor">@color/text_input_edit_text_background_dark</item>
+
+            <!-- Customize other aspects for night mode if they differ from the day mode style -->
+            <!-- <item name="boxStrokeColor">...</item> -->
+            <!-- <item name="android:textColorHint">...</item> -->
+        </style>
+
 </resources>
