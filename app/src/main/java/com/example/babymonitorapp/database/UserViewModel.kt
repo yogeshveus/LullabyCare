@@ -31,6 +31,12 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
     suspend fun getUserbyUserId(userId: Int): User?{
         return repository.getUserbyUserId(userId)
     }
+    suspend fun updateUser(user: User){
+        return repository.updateUser(user)
+    }
+    suspend fun deleteUser(user: User){
+        return repository.deleteUser(user)
+    }
 
 
 }

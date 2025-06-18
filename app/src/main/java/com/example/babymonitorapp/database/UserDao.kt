@@ -14,10 +14,10 @@ interface UserDao {
     fun insertUser(user: User)
 
     @Delete
-    fun deleteUser(user: User)
+    suspend fun deleteUser(user: User)
 
     @Update
-    fun updateUser(user: User)
+    suspend fun updateUser(user: User)
 
     @Query("SELECT * FROM user")
     fun readUser(): LiveData<List<User>>
