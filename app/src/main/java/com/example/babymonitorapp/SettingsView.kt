@@ -5,19 +5,31 @@ import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.example.babymonitorapp.SettingsView
+import com.example.babymonitorapp.database.User
 import com.example.babymonitorapp.database.UserViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
 
-class SettingsView : AppCompatActivity() {
 
+class SettingsView : AppCompatActivity() {
+    companion object {
+        const val THEME_PREFS_NAME = "AppThemePrefs"
+        const val KEY_APP_THEME = "selected_app_theme"
+    }
     private lateinit var userViewModel: UserViewModel
+    private lateinit var bottomNav: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // It's best to apply the theme in your Application class or a BaseActivity's onCreate
+        // to avoid a flicker. For example:
+        // applyThemeFromPreferencesOnLaunch()
+
         setContentView(R.layout.activity_settings_view)
 
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
@@ -26,7 +38,8 @@ class SettingsView : AppCompatActivity() {
         val editAccount = findViewById<TextView>(R.id.editAccountButton)
         val changeTheme = findViewById<TextView>(R.id.changeThemeButton)
         val logout = findViewById<TextView>(R.id.logoutButton)
-        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        bottomNav = findViewById(R.id.bottomNavigationView)
+
 
         accountDetails.setOnClickListener {
             val sharedPref = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
@@ -51,7 +64,7 @@ class SettingsView : AppCompatActivity() {
         }
 
         changeTheme.setOnClickListener {
-            Toast.makeText(this, "Theme change feature not implemented yet.", Toast.LENGTH_SHORT).show()
+            showThemeSelectionDialog()
         }
 
         logout.setOnClickListener {
@@ -107,6 +120,47 @@ class SettingsView : AppCompatActivity() {
                     }
                 }
             }.show()
+    }
+
+    private fun showThemeSelectionDialog() {
+        val themes = arrayOf("Light", "Dark", "System Default")
+        val sharedPreferences = getSharedPreferences(THEME_PREFS_NAME, MODE_PRIVATE)
+        // Default to System Default if no preference is saved
+        val currentThemeMode = sharedPreferences.getInt(KEY_APP_THEME, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+
+        val checkedItem = when (currentThemeMode) {
+            AppCompatDelegate.MODE_NIGHT_NO -> 0 // Light
+            AppCompatDelegate.MODE_NIGHT_YES -> 1 // Dark
+            else -> 2 // System Default
+        }
+
+        AlertDialog.Builder(this)
+            .setTitle("Choose Theme")
+            .setSingleChoiceItems(themes, checkedItem) { dialog, which ->
+                val selectedMode = when (which) {
+                    0 -> AppCompatDelegate.MODE_NIGHT_NO  // Light
+                    1 -> AppCompatDelegate.MODE_NIGHT_YES // Dark
+                    else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM // System Default
+                }
+                applyAndSaveTheme(selectedMode)
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun applyAndSaveTheme(themeMode: Int) {
+        AppCompatDelegate.setDefaultNightMode(themeMode) // Applies the theme for all activities
+
+        // Save the selected theme to SharedPreferences
+        val sharedPreferences = getSharedPreferences(THEME_PREFS_NAME, MODE_PRIVATE)
+        sharedPreferences.edit {
+            putInt(KEY_APP_THEME, themeMode)
+            apply()
+        }
+        // Optional: recreate() this activity if you want changes to apply to SettingsView immediately
+        // without navigating away and back.
+        // recreate()
     }
 
     private fun showEditAccountDialog(user: com.example.babymonitorapp.database.User) {
