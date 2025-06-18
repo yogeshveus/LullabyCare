@@ -23,7 +23,12 @@ import kotlinx.coroutines.launch
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.widget.Toast
-
+import android.app.Application
+import com.google.firebase.Firebase
+import com.google.firebase.appcheck.FirebaseAppCheck
+import com.google.firebase.appcheck.appCheck
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
+import com.google.firebase.initialize
 
 
 class MainActivity3 : AppCompatActivity() {
@@ -63,6 +68,11 @@ class MainActivity3 : AppCompatActivity() {
         currentUserId = sharedPref.getInt("loggedInUserId", -1)
 
         super.onCreate(savedInstanceState)
+        Firebase.initialize(context = this)
+        Firebase.appCheck.installAppCheckProviderFactory(
+            PlayIntegrityAppCheckProviderFactory.getInstance(),
+        )
+
         taskViewModel = ViewModelProvider(this)[TaskViewModel::class.java]
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
         setContentView(R.layout.activity_main3)

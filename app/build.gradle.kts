@@ -52,18 +52,18 @@ dependencies {
     ksp(libs.androidx.room.compiler)
 
     // Import the Firebase BoM
-    implementation(platform("com.google.firebase:firebase-bom:33.15.0"))
+    implementation(platform(libs.firebase.bom))
 
-
+    implementation(libs.firebase.appcheck.playintegrity)
     // TODO: Add the dependencies for Firebase products you want to use
     // When using the BoM, don't specify versions in Firebase dependencies
-    implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-messaging:24.1.1")
-    implementation("com.google.firebase:firebase-auth")
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.messaging)
+    implementation(libs.firebase.auth)
 
 
     // your existing dependencies...
-    implementation ("com.squareup.okhttp3:okhttp:4.11.0")
+    implementation (libs.okhttp)
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation(libs.lifecycle.viewmodel.ktx.v270)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -84,6 +84,5 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.glide)
     implementation(libs.androidx.recyclerview)
-    implementation ("com.google.android.gms:play-services-auth:20.7.0")
-    implementation ("com.google.android.play:integrity:1.3.0")
+
 }
