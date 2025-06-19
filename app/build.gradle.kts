@@ -1,10 +1,5 @@
 import java.util.Properties
-
-val localProperties = Properties()
-val localPropertiesFile = rootProject.file("local.properties")
-if (localPropertiesFile.exists()) {
-    localProperties.load(localPropertiesFile.inputStream())
-}
+import java.io.FileInputStream
 
 plugins {
     alias(libs.plugins.android.application)
@@ -13,7 +8,17 @@ plugins {
     id("org.jetbrains.kotlin.kapt")
     id("com.google.gms.google-services")
 }
+val localProperties = Properties().apply {
+    val localPropsFile = rootProject.file("local.properties")
+    if (localPropsFile.exists()) {
+        load(FileInputStream(localPropsFile))
+    }
+}
 
+val ytApiKey = localProperties.getProperty("YTAPI") ?: ""
+val playId = localProperties.getProperty("PLAYLISTID") ?: ""
+val nutritionApi = localProperties.getProperty("NUTRITIONAPI") ?: ""
+val mapApi = localProperties.getProperty("MAPAPI") ?: ""
 android {
     namespace = "com.example.babymonitorapp"
     compileSdk = 35
@@ -26,19 +31,11 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders["MAPAPI"] = mapApi
+        buildConfigField("String", "YTAPI", "\"${ytApiKey}\"")
+        buildConfigField("String", "PLAYID", "\"${playId}\"")
+        buildConfigField("String", "NUTRITIONAPI", "\"${nutritionApi}\"")
 
-        buildConfigField(
-            "String",
-            "API_KEY_YT",
-            "\"${localProperties.getProperty("API_KEY_YT")}\""
-        )
-        buildConfigField(
-            "String",
-            "API_KEY_NUT",
-            "\"${localProperties.getProperty("API_KEY_NUT")}\""
-        )
-        android.buildFeatures.buildConfig = true
-        manifestPlaceholders["API_KEY_COM"] = localProperties.getProperty("API_KEY_COM") ?: ""
     }
 
     buildTypes {
@@ -59,6 +56,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -75,7 +73,8 @@ dependencies {
     implementation(platform(libs.firebase.bom))
 
     implementation(libs.firebase.appcheck.playintegrity)
-
+    // TODO: Add the dependencies for Firebase products you want to use
+    // When using the BoM, don't specify versions in Firebase dependencies
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.messaging)
     implementation(libs.firebase.auth)

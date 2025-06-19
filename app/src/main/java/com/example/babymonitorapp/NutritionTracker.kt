@@ -9,10 +9,9 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 
-
 object NutritionTracker {
 
-    private const val apiKey = BuildConfig.API_KEY_NUT // Replace with your actual API key
+    private const val apiKey = BuildConfig.NUTRITIONAPI // Replace with your actual API key
     private val client = OkHttpClient()
     private val foodLog = mutableListOf<FoodEntry>()
 
