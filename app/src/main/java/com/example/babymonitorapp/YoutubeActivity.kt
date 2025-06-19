@@ -38,7 +38,7 @@ class YoutubeActivity : AppCompatActivity() {
 
     // !!! SECURITY WARNING: Storing API keys in client-side code is not recommended for production.
     // Consider using a backend server to make API requests.
-    private val apiKey = "AIzaSyDx85tX3id6PsbfM5TefEFcafqhMxcWiIg" // REPLACE WITH YOUR VALID API KEY
+    private val apiKey = BuildConfig.API_KEY_YT // REPLACE WITH YOUR VALID API KEY
 
     private val TAG = "YoutubeActivity"
 

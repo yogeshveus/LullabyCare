@@ -1,3 +1,11 @@
+import java.util.Properties
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
+}
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -18,6 +26,19 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField(
+            "String",
+            "API_KEY_YT",
+            "\"${localProperties.getProperty("API_KEY_YT")}\""
+        )
+        buildConfigField(
+            "String",
+            "API_KEY_NUT",
+            "\"${localProperties.getProperty("API_KEY_NUT")}\""
+        )
+        android.buildFeatures.buildConfig = true
+        manifestPlaceholders["API_KEY_COM"] = localProperties.getProperty("API_KEY_COM") ?: ""
     }
 
     buildTypes {
@@ -54,8 +75,7 @@ dependencies {
     implementation(platform(libs.firebase.bom))
 
     implementation(libs.firebase.appcheck.playintegrity)
-    // TODO: Add the dependencies for Firebase products you want to use
-    // When using the BoM, don't specify versions in Firebase dependencies
+
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.messaging)
     implementation(libs.firebase.auth)
