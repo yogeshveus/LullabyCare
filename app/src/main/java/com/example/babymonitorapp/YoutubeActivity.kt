@@ -34,13 +34,13 @@ class YoutubeActivity : AppCompatActivity() {
 
     // --- Configuration ---
     // !!! IMPORTANT: Replace with your actual Playlist ID !!!
-    private val playlistId = "PLT1rvk7Trkw5Cj5Y4bEfCN8593QtTw2Ve" // Your Baby Shark playlist
+    private val playlistId = BuildConfig.PLAYID// Your Baby Shark playlist
 
     // !!! SECURITY WARNING: Storing API keys in client-side code is not recommended for production.
     // Consider using a backend server to make API requests.
-    private val apiKey = "AIzaSyDx85tX3id6PsbfM5TefEFcafqhMxcWiIg" // REPLACE WITH YOUR VALID API KEY
+    private val apiKey = BuildConfig.YTAPI // REPLACE WITH YOUR VALID API KEY
 
-    private val TAG = "YoutubeActivity"
+    private val tag = "YoutubeActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -134,24 +134,24 @@ class YoutubeActivity : AppCompatActivity() {
                             }
                         } else {
                             showError("Playlist is empty or no items found.")
-                            Log.w(TAG, "Playlist empty or null response. Raw: $response")
+                            Log.w(tag, "Playlist empty or null response. Raw: $response")
                         }
                     }
                 } else {
                     val errorBody = connection.errorStream?.bufferedReader()?.readText() ?: "No error body"
-                    Log.e(TAG, "Error fetching playlist. Code: $responseCode, Message: ${connection.responseMessage}, Body: $errorBody")
+                    Log.e(tag, "Error fetching playlist. Code: $responseCode, Message: ${connection.responseMessage}, Body: $errorBody")
                     withContext(Dispatchers.Main) {
                         showError("Error: ${connection.responseMessage} ($responseCode)")
                     }
                 }
                 connection.disconnect()
             } catch (e: UnknownHostException) {
-                Log.e(TAG, "Network error fetching playlist", e)
+                Log.e(tag, "Network error fetching playlist", e)
                 withContext(Dispatchers.Main) {
                     showError("Network error. Please check your internet connection.")
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "Exception fetching playlist", e)
+                Log.e(tag, "Exception fetching playlist", e)
                 withContext(Dispatchers.Main) {
                     showError("Error: ${e.localizedMessage ?: "An unexpected error occurred."}")
                 }

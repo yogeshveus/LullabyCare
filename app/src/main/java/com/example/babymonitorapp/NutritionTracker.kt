@@ -11,7 +11,7 @@ import org.json.JSONObject
 
 object NutritionTracker {
 
-    private const val apiKey = "AIzaSyBOal88cXbIw2-49yRFvYJmBJloJlRSEsY" // Replace with your actual API key
+    private const val apiKey = BuildConfig.NUTRITIONAPI // Replace with your actual API key
     private val client = OkHttpClient()
     private val foodLog = mutableListOf<FoodEntry>()
 

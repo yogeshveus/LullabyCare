@@ -1,3 +1,6 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -5,7 +8,17 @@ plugins {
     id("org.jetbrains.kotlin.kapt")
     id("com.google.gms.google-services")
 }
+val localProperties = Properties().apply {
+    val localPropsFile = rootProject.file("local.properties")
+    if (localPropsFile.exists()) {
+        load(FileInputStream(localPropsFile))
+    }
+}
 
+val ytApiKey = localProperties.getProperty("YTAPI") ?: ""
+val playId = localProperties.getProperty("PLAYLISTID") ?: ""
+val nutritionApi = localProperties.getProperty("NUTRITIONAPI") ?: ""
+val mapApi = localProperties.getProperty("MAPAPI") ?: ""
 android {
     namespace = "com.example.babymonitorapp"
     compileSdk = 35
@@ -18,6 +31,11 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders["MAPAPI"] = mapApi
+        buildConfigField("String", "YTAPI", "\"${ytApiKey}\"")
+        buildConfigField("String", "PLAYID", "\"${playId}\"")
+        buildConfigField("String", "NUTRITIONAPI", "\"${nutritionApi}\"")
+
     }
 
     buildTypes {
@@ -38,6 +56,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
